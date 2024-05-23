@@ -8,8 +8,6 @@ blueprint:
     \n\n
     Make sure to manually create a separate **Text Helper** per controller and define its entity in the automation. It's used to store the last controller event to filter possible
     empty events and handle 'button hold' actions.
-    \n\n
-    This blueprint is mainly based on the hard work of @vandalon and his great blueprint for the PTM 215Z (Friend of Hue).
     "
   domain: automation
   input:
