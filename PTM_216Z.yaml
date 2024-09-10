@@ -11,6 +11,7 @@ blueprint:
       default: ''
       selector:
         entity:
+          integration: mqtt
           domain: sensor
     helper_last_controller_event:
       name: (Required) Helper - Last Controller Event
