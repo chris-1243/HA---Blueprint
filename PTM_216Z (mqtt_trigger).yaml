@@ -1,14 +1,14 @@
 blueprint:
-  name: Controller - EnOcean PTM 216Z switch
-  description:
-    "
+  homeassistant:
+    min_version: 2024.10.0
+  name: Controller - EnOcean PTM 216Z (MQTT trigger)
+  description: |
     Controller automation for executing press/hold/release after hold actions triggered by EnOcean PTM 216Z switch.
-    \n\n
-    Make sure that **Elapsed** is enabled in the z2m advanced settings.
-    \n\n
+
     Make sure to manually create a separate **Text Helper** per controller and define its entity in the automation. It's used to store the last controller event to filter possible
     empty events and handle 'button hold' actions.
-    "
+
+    ℹ️ Version 2024.10.17
   domain: automation
   input:
     controller:
@@ -148,103 +148,76 @@ blueprint:
       default: []
       selector:
         action: {}
-#  source_url:
-mode: restart
+  source_url: https://github.com/chris-1243/HA---Blueprint/blob/main/PTM_216Z%20(mqtt_trigger).yaml
+mode: single
 max_exceeded: silent
-variables:
-  hold_delay: !input hold_delay
 trigger_variables:
   base_topic: !input base_topic
   controller: !input controller
-trigger:
-  - platform: mqtt
-    topic: '{{ base_topic ~ "/" ~ controller }}'
-condition:
-# This line is to avoid a warning at startup only
-  - '{{ as_timestamp(now()) - as_timestamp(states.binary_sensor.zigbee2mqtt_bridge_connection_state.last_changed)
-      | int > 40 }}'
-  - '{{ ("release" in trigger.payload_json.action and trigger.payload_json.elapsed is defined)
-        or "press_" in trigger.payload_json.action }}'
-action:
+triggers:
+  - trigger: mqtt
+    topic: '{{ base_topic ~ "/" ~ controller ~ "/action" }}'
+conditions: '{{ "release" | string in trigger.payload or "press_" | string in trigger.payload }}'
+actions:
   - variables:
-      controller: !input controller
       helper_last_controller_event: !input helper_last_controller_event
-      command: '{{ trigger.payload_json.action }}'
+      command: '{{ trigger.payload }}'
       prev_command: '{{ states(helper_last_controller_event) }}'
-  - service: input_text.set_value
+  - action: input_text.set_value
     data:
       entity_id: !input helper_last_controller_event
       value: "{{ command }}"
   - choose:
-      - conditions: '{{ "release" in trigger.payload_json.action and trigger.payload_json.elapsed | int < hold_delay }}'
+      - conditions: '{{ "press_" | string in trigger.payload }}'
         sequence:
-          - choose:
-              - conditions: 
-                  - '{{ command == "release" and prev_command == "press_1" }}'
-                  - '{{ trigger.payload_json.action == "release" }}'
-                sequence: !input button_1_pressed
-              - conditions:
-                  - '{{ command == "release" and prev_command == "press_2" }}'
-                  - '{{ trigger.payload_json.action == "release" }}'
-                sequence: !input button_2_pressed
-              - conditions:
-                  - '{{ command == "release" and prev_command == "press_3" }}'
-                  - '{{ trigger.payload_json.action == "release" }}'
-                sequence: !input button_3_pressed
-              - conditions:
-                  - '{{ command == "release" and prev_command == "press_4" }}'
-                  - '{{ trigger.payload_json.action == "release" }}'
-                sequence: !input button_4_pressed
-              - conditions:
-                  - '{{ command == "release" and prev_command == "press_1_and_3" }}'
-                  - '{{ trigger.payload_json.action == "release" }}'
-                sequence: !input button_1_and_3_pressed
-              - conditions:
-                  - '{{ command == "release" and prev_command == "press_2_and_4" }}'
-                  - '{{ trigger.payload_json.action == "release" }}'
-                sequence: !input button_2_and_4_pressed
-      - conditions: '{{ "press_" | string in trigger.payload_json.action }}'
-        sequence:
-          - delay:
+          - wait_for_trigger:
+              - trigger: mqtt
+                topic: '{{ base_topic ~ "/" ~ controller ~ "/action" }}'
+                payload: 'release'
+            timeout:
               milliseconds: !input hold_delay
           - choose:
-              - conditions: '{{ trigger.payload_json.action == "press_1" }}'
-                sequence: !input button_1_held
-              - conditions: '{{ trigger.payload_json.action == "press_2" }}'
-                sequence: !input button_2_held
-              - conditions: '{{ trigger.payload_json.action == "press_3" }}'
-                sequence: !input button_3_held
-              - conditions: '{{ trigger.payload_json.action == "press_4" }}'
-                sequence: !input button_4_held
-              - conditions: '{{ trigger.payload_json.action == "press_1_and_3" }}'
-                sequence: !input button_1_and_3_held
-              - conditions: '{{ trigger.payload_json.action == "press_2_and_4" }}'
-                sequence: !input button_2_and_4_held
-      - conditions:
-          - '{{ "release" in trigger.payload_json.action and trigger.payload_json.elapsed | int > hold_delay }}'
+              - conditions: '{{ wait.trigger != None }}'
+                sequence:
+                  - choose:
+                      - conditions: '{{ command == "press_1" }}'
+                        sequence: !input 'button_1_pressed'
+                      - conditions: '{{ command == "press_2" }}'
+                        sequence: !input 'button_2_pressed'
+                      - conditions: '{{ command == "press_3" }}'
+                        sequence: !input 'button_3_pressed'
+                      - conditions: '{{ command == "press_4" }}'
+                        sequence: !input 'button_4_pressed'
+                      - conditions: '{{ command == "press_1_and_3" }}'
+                        sequence: !input 'button_1_and_3_pressed'
+                      - conditions: '{{ command == "press_2_and_4" }}'
+                        sequence: !input 'button_2_and_4_pressed'
+            default:
+              - choose:
+                  - conditions: '{{ command == "press_1" }}'
+                    sequence: !input 'button_1_held'
+                  - conditions: '{{ command == "press_2" }}'
+                    sequence: !input 'button_2_held'
+                  - conditions: '{{ command == "press_3" }}'
+                    sequence: !input 'button_3_held'
+                  - conditions: '{{ command == "press_4" }}'
+                    sequence: !input 'button_4_held'
+                  - conditions: '{{ command == "press_1_and_3" }}'
+                    sequence: !input 'button_1_and_3_held'
+                  - conditions: '{{ command == "press_2_and_4" }}'
+                    sequence: !input 'button_2_and_4_held'
+      - conditions: '{{ "release" in trigger.payload }}'
         sequence:
           - choose:
-              - conditions: 
-                  - '{{ command == "release" and prev_command == "press_1" }}'
-                  - '{{ trigger.payload_json.action == "release" }}'
-                sequence: !input button_1_released
-              - conditions:
-                  - '{{ command == "release" and prev_command == "press_2" }}'
-                  - '{{ trigger.payload_json.action == "release" }}'
-                sequence: !input button_2_released
-              - conditions:
-                  - '{{ command == "release" and prev_command == "press_3" }}'
-                  - '{{ trigger.payload_json.action == "release" }}'
-                sequence: !input button_3_released
-              - conditions:
-                  - '{{ command == "release" and prev_command == "press_4" }}'
-                  - '{{ trigger.payload_json.action == "release" }}'
-                sequence: !input button_4_released
-              - conditions:
-                  - '{{ command == "release" and prev_command == "press_1_and_3" }}'
-                  - '{{ trigger.payload_json.action == "release" }}'
-                sequence: !input button_1_and_3_released
-              - conditions:
-                  - '{{ command == "release" and prev_command == "press_2_and_4" }}'
-                  - '{{ trigger.payload_json.action == "release" }}'
-                sequence: !input button_2_and_4_released
+            - conditions: '{{ prev_command == "press_1" }}'
+              sequence: !input 'button_1_released'
+            - conditions: '{{ prev_command == "press_2" }}'
+              sequence: !input 'button_2_released'
+            - conditions: '{{ prev_command == "press_3" }}'
+              sequence: !input 'button_3_released'
+            - conditions: '{{ prev_command == "press_4" }}'
+              sequence: !input 'button_4_released'
+            - conditions: '{{ prev_command == "press_1_and_3" }}'
+              sequence: !input 'button_1_and_3_released'
+            - conditions: '{{ prev_command == "press_2_and_4" }}'
+              sequence: !input 'button_2_and_4_released'
