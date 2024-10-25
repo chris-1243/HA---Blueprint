@@ -135,7 +135,7 @@ blueprint:
       default: []
       selector:
         action: {}
-  source_url: https://github.com/chris-1243/HA---Blueprint/blob/main/PTM_215Z_ZEZ%20(mqtt_trigger).yaml
+  source_url: https://github.com/chris-1243/HA---Blueprint/blob/main/PTM_215Z_ZE%20(mqtt_trigger).yaml
 mode: single
 max_exceeded: silent
 trigger_variables:
