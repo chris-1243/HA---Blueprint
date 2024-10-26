@@ -5,7 +5,7 @@ blueprint:
   description: |
     Controller automation for executing **press/hold/release** after hold actions triggered by EnOcean PTM 215Z/ZE switch.
 
-    ℹ️ Version 2024.10.17
+    ℹ️ Version 2024.10.27
   domain: automation
   input:
     controller:
@@ -162,43 +162,43 @@ actions:
                 sequence:
                   - choose:
                       - conditions: '{{ command == "press_1" }}'
-                        sequence: !input 'button_1_pressed'
+                        sequence: !input button_1_pressed
                       - conditions: '{{ command == "press_2" }}'
-                        sequence: !input 'button_2_pressed'
+                        sequence: !input button_2_pressed
                       - conditions: '{{ command == "press_3" }}'
-                        sequence: !input 'button_3_pressed'
+                        sequence: !input button_3_pressed
                       - conditions: '{{ command == "press_4" }}'
-                        sequence: !input 'button_4_pressed'
+                        sequence: !input button_4_pressed
                       - conditions: '{{ command == "press_1_and_3" }}'
-                        sequence: !input 'button_1_and_3_pressed'
+                        sequence: !input button_1_and_3_pressed
                       - conditions: '{{ command == "press_2_and_4" }}'
-                        sequence: !input 'button_2_and_4_pressed'
+                        sequence: !input button_2_and_4_pressed
             default:
               - choose:
                   - conditions: '{{ command == "press_1" }}'
-                    sequence: !input 'button_1_held'
+                    sequence: !input button_1_held
                   - conditions: '{{ command == "press_2" }}'
-                    sequence: !input 'button_2_held'
+                    sequence: !input button_2_held
                   - conditions: '{{ command == "press_3" }}'
-                    sequence: !input 'button_3_held'
+                    sequence: !input button_3_held
                   - conditions: '{{ command == "press_4" }}'
-                    sequence: !input 'button_4_held'
+                    sequence: !input button_4_held
                   - conditions: '{{ command == "press_1_and_3" }}'
-                    sequence: !input 'button_1_and_3_held'
+                    sequence: !input button_1_and_3_held
                   - conditions: '{{ command == "press_2_and_4" }}'
-                    sequence: !input 'button_2_and_4_held'
+                    sequence: !input button_2_and_4_held
       - conditions: '{{ "release_" | string in trigger.payload }}'
         sequence:
           - choose:
             - conditions: '{{ command == "release_1" }}'
-              sequence: !input 'button_1_released'
+              sequence: !input button_1_released
             - conditions: '{{ command == "release_2" }}'
-              sequence: !input 'button_2_released'
+              sequence: !input button_2_released
             - conditions: '{{ command == "release_3" }}'
-              sequence: !input 'button_3_released'
+              sequence: !input button_3_released
             - conditions: '{{ command == "release_4" }}'
-              sequence: !input 'button_4_released'
+              sequence: !input button_4_released
             - conditions: '{{ command == "release_1_and_3" }}'
-              sequence: !input 'button_1_and_3_released'
+              sequence: !input button_1_and_3_released
             - conditions: '{{ command == "release_2_and_4" }}'
-              sequence: !input 'button_2_and_4_released'
+              sequence: !input button_2_and_4_released
