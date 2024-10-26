@@ -166,7 +166,7 @@ actions:
   - action: input_text.set_value
     data:
       entity_id: !input helper_last_controller_event
-      value: "{{ command }}"
+      value: '{{ command }}'
   - choose:
       - conditions: '{{ "press_" | string in trigger.payload }}'
         sequence:
