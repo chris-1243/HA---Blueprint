@@ -1,8 +1,10 @@
 blueprint:
   name: Controller - EnOcean PTM 215Z (Friends of Hue) switch
-  description: 'Controller automation for executing press/hold/release actions triggered by
-    EnOcean PTM 215Z (Friends of Hue) switch.'
+  description: |
+    Controller automation for executing **press/hold/release** actions triggered by EnOcean PTM 215Z/ZE switch.
 
+    ℹ️ Version 2024.10.27
+  domain: automation
   domain: automation
   input: 
     controller_entity:
