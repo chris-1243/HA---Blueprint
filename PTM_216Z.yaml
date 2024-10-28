@@ -132,13 +132,13 @@ blueprint:
         action: {}
     button_2_and_4_held:
       name: Button 2 and 4 Held
-      description: Action to run, when buttons 2 and 4 are is held.
+      description: Action to run, when buttons 2 and 4 are held.
       default: []
       selector:
         action: {}
     button_2_and_4_released:
       name: Button 2 and 4 released
-      description: Action to run, when buttons 2 and 4 are is released after long press.
+      description: Action to run, when buttons 2 and 4 are released after long press.
       default: []
       selector:
         action: {}
