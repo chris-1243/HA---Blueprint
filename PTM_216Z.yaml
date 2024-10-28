@@ -5,6 +5,8 @@ blueprint:
 
     Make sure to manually create a separate **Text Helper** per controller and define its entity in the automation. It's used to store the last controller event to filter possible
     empty events and handle 'button hold' actions.
+
+    ️ Version 2024.10.27
   domain: automation
   input: 
     controller_entity:
