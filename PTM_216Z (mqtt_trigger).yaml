@@ -157,7 +157,7 @@ trigger_variables:
 triggers:
   - trigger: mqtt
     topic: '{{ base_topic ~ "/" ~ controller ~ "/action" }}'
-conditions: '{{ "release" | string in trigger.payload or "press_" | string in trigger.payload }}'
+conditions: '{{ "release" in trigger.payload or "press_" | string in trigger.payload }}'
 actions:
   - variables:
       helper_last_controller_event: !input helper_last_controller_event
