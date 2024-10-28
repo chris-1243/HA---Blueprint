@@ -1,4 +1,4 @@
-lblueprint:
+blueprint:
   homeassistant:
     min_version: 2024.10.0
   name: Controller - EnOcean PTM 215Z/ZE (MQTT trigger)
