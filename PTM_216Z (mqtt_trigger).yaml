@@ -3,7 +3,7 @@ blueprint:
     min_version: 2024.10.0
   name: Controller - EnOcean PTM 216Z (MQTT trigger)
   description: |
-    Controller automation for executing press/hold/release after hold actions triggered by EnOcean PTM 216Z switch.
+    Controller automation for executing **press/hold/release** after hold actions triggered by EnOcean PTM 216Z switch.
 
     Make sure to manually create a separate **Text Helper** per controller and define its entity in the automation. It's used to store the last controller event to filter possible
     empty events and handle 'button hold' actions.
