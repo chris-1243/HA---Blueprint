@@ -5,7 +5,7 @@ blueprint:
   description: |
     Controller automation for executing **press/hold/release** after hold actions triggered by EnOcean PTM 215Z/ZE switch.
 
-    ℹ️ Version 2024.10.27
+    ℹ️ Version 2024.10.30
   domain: automation
   input:
     controller:
@@ -154,7 +154,6 @@ actions:
           - wait_for_trigger:
               - trigger: mqtt
                 topic: '{{ base_topic ~ "/" ~ controller ~ "/action" }}'
-                value_template: 'release_'
             timeout:
               milliseconds: !input hold_delay
           - choose:
