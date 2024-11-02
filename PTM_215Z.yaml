@@ -3,8 +3,7 @@ blueprint:
   description: |
     Controller automation for executing **press/hold/release** actions triggered by EnOcean PTM 215Z/ZE switch.
 
-    ℹ️ Version 2024.10.27
-  domain: automation
+    ℹ️ Version 2024.10.31
   domain: automation
   input: 
     controller_entity:
@@ -136,93 +135,72 @@ blueprint:
         action: {}
 mode: single
 max_exceeded: silent
-trigger:
-- platform: event
-  event_type: state_changed
-  event_data:
-    entity_id: !input 'controller_entity'
-condition: '{{ trigger.event.data.new_state.state not in ("","None") }}'
-action:
-- variables:
-    trigger_action: '{{ trigger.event.data.new_state.state }}'
-- choose:
-  - conditions: '{{ "press_" | string in trigger_action }}'
-    sequence:
-      - wait_for_trigger:
-          - platform: state
-            entity_id: !input 'controller_entity'
-            to: "release_1"
-          - platform: state
-            entity_id: !input 'controller_entity'
-            to: "release_2"      
-          - platform: state
-            entity_id: !input 'controller_entity'
-            to: "release_3"
-          - platform: state
-            entity_id: !input 'controller_entity'
-            to: "release_4"
-          - platform: state
-            entity_id: !input 'controller_entity'
-            to: "release_1_and_3"
-          - platform: state
-            entity_id: !input 'controller_entity'
-            to: "release_2_and_4"
-        timeout:
-          milliseconds: !input 'hold_delay'
-      # - choose:
-      #   - conditions: '{{ wait.trigger != None }}'
-      #     sequence:
-      #     - service: logbook.log
-      #       data:
-      #         name: Button Id
-      #         message: '{{ trigger_action }} - press action'          
-      #   - conditions: '{{ wait.trigger == None }}'
-      #     sequence:
-      #     - service: logbook.log
-      #       data:
-      #         name: Button Id
-      #         message: '{{ trigger_action }} - hold action'         
-      - choose:
-        - conditions: '{{ trigger_action == "press_1" and wait.trigger != None }}'
-          sequence: !input 'button_1_pressed'
-        - conditions: '{{ trigger_action == "press_2" and wait.trigger != None }}'
-          sequence: !input 'button_2_pressed'
-        - conditions: '{{ trigger_action == "press_3" and wait.trigger != None }}'
-          sequence: !input 'button_3_pressed'
-        - conditions: '{{ trigger_action == "press_4" and wait.trigger != None }}'
-          sequence: !input 'button_4_pressed'
-        - conditions: '{{ trigger_action == "press_1_and_3" and wait.trigger != None }}'
-          sequence: !input 'button_1_and_3_pressed'
-        - conditions: '{{ trigger_action == "press_2_and_4" and wait.trigger != None }}'
-          sequence: !input 'button_2_and_4_pressed'
-        - conditions: '{{ trigger_action == "press_1" and wait.trigger == None }}'
-          sequence: !input 'button_1_held'
-        - conditions: '{{ trigger_action == "press_2" and wait.trigger == None }}'
-          sequence: !input 'button_2_held'
-        - conditions: '{{ trigger_action == "press_3" and wait.trigger == None }}'
-          sequence: !input 'button_3_held'
-        - conditions: '{{ trigger_action == "press_4" and wait.trigger == None }}'
-          sequence: !input 'button_4_held'
-        - conditions: '{{ trigger_action == "press_1_and_3" and wait.trigger == None }}'
-          sequence: !input 'button_1_and_3_held'
-        - conditions: '{{ trigger_action == "press_2_and_4" and wait.trigger == None }}'
-          sequence: !input 'button_2_and_4_held'
-  - conditions: '{{ "release_" | string in trigger_action }}'
-    sequence:
-      # - service: logbook.log
-      #   data:
-      #     name: Button Id
-      #     message: '{{ trigger_action }} - release action'
-      - choose:
-        - conditions: '{{ trigger_action == "release_1" }}'
-          sequence: !input 'button_1_released'
-        - conditions: '{{ trigger_action == "release_2" }}'
-          sequence: !input 'button_2_released'
-        - conditions: '{{ trigger_action == "release_3" }}'
-          sequence: !input 'button_3_released'
-        - conditions: '{{ trigger_action == "release_4" }}'
-          sequence: !input 'button_4_released'
-        - conditions: '{{ trigger_action == "release_1_and_3" }}'
-          sequence: !input 'button_1_and_3_released'
-        - conditions: '{{ trigger_action == "release_2_and_4" }}'
-          sequence: !input 'button_2_and_4_released'
+triggers:
+  - trigger: event
+    event_type: state_changed
+    event_data:
+      entity_id: !input controller_entity
+conditions: '{{ trigger.event.data.new_state.state not in ("", "unknown", "unavailable", "None") }}'
+actions:
+  - variables:
+      command: '{{ trigger.event.data.new_state.state }}'
+  - choose:
+      - conditions: '{{ "press_" | string in command }}'
+        sequence:
+          - wait_for_trigger:
+              - trigger: state
+                entity_id: !input controller_entity
+                to:
+                  - "release_1"
+                  - "release_2"
+                  - "release_3"
+                  - "release_4"
+                  - "release_1_and_3"
+                  - "release_2_and_4"
+            timeout:
+              milliseconds: !input hold_delay
+          - choose:
+              - conditions: '{{ wait.trigger != None }}'
+                sequence:
+                  - choose:
+                      - conditions: '{{ command == "press_1" }}'
+                        sequence: !input button_1_pressed
+                      - conditions: '{{ command == "press_2" }}'
+                        sequence: !input button_2_pressed
+                      - conditions: '{{ command == "press_3" }}'
+                        sequence: !input button_3_pressed
+                      - conditions: '{{ command == "press_4" }}'
+                        sequence: !input button_4_pressed
+                      - conditions: '{{ command == "press_1_and_3" }}'
+                        sequence: !input button_1_and_3_pressed
+                      - conditions: '{{ command == "press_2_and_4" }}'
+                        sequence: !input button_2_and_4_pressed
+            default:
+              - choose:
+                  - conditions: '{{ command == "press_1" }}'
+                    sequence: !input button_1_held
+                  - conditions: '{{ command == "press_2" }}'
+                    sequence: !input button_2_held
+                  - conditions: '{{ command == "press_3" }}'
+                    sequence: !input button_3_held
+                  - conditions: '{{ command == "press_4" }}'
+                    sequence: !input button_4_held
+                  - conditions: '{{ command == "press_1_and_3" }}'
+                    sequence: !input button_1_and_3_held
+                  - conditions: '{{ command == "press_2_and_4" }}'
+                    sequence: !input button_2_and_4_held
+      - conditions: '{{ "release_" | string in command }}'
+        sequence:
+          - choose:
+              - conditions: '{{ command == "release_1" }}'
+                sequence: !input button_1_released
+              - conditions: '{{ command == "release_2" }}'
+                sequence: !input button_2_released
+              - conditions: '{{ command == "release_3" }}'
+                sequence: !input button_3_released
+              - conditions: '{{ command == "release_4" }}'
+                sequence: !input button_4_released
+              - conditions: '{{ command == "release_1_and_3" }}'
+                sequence: !input button_1_and_3_released
+              - conditions: '{{ command == "release_2_and_4" }}'
+                sequence: !input button_2_and_4_released
