@@ -6,7 +6,7 @@ blueprint:
     Make sure to manually create a separate **Text Helper** per controller and define its entity in the automation. It's used to store the last controller event to filter possible
     empty events and handle 'button hold' actions.
 
-    ℹ️ Version 2024.10.31
+    ℹ️ Version 2024.11.13
   domain: automation
   input: 
     controller_entity:
@@ -172,23 +172,22 @@ actions:
                 to: "release"
             timeout:
               milliseconds: !input hold_delay
-          - choose:
-              - conditions: '{{ wait.trigger != None }}'
-                sequence:
-                  - choose:
-                      - conditions: '{{ command == "press_1" }}'
-                        sequence: !input button_1_pressed
-                      - conditions: '{{ command == "press_2" }}'
-                        sequence: !input button_2_pressed
-                      - conditions: '{{ command == "press_3" }}'
-                        sequence: !input button_3_pressed
-                      - conditions: '{{ command == "press_4" }}'
-                        sequence: !input button_4_pressed
-                      - conditions: '{{ command == "press_1_and_3" }}'
-                        sequence: !input button_1_and_3_pressed
-                      - conditions: '{{ command == "press_2_and_4" }}'
-                        sequence: !input button_2_and_4_pressed
-            default:
+          - if: '{{ wait.trigger != None }}'
+            then:
+              - choose:
+                  - conditions: '{{ command == "press_1" }}'
+                    sequence: !input button_1_pressed
+                  - conditions: '{{ command == "press_2" }}'
+                    sequence: !input button_2_pressed
+                  - conditions: '{{ command == "press_3" }}'
+                    sequence: !input button_3_pressed
+                  - conditions: '{{ command == "press_4" }}'
+                    sequence: !input button_4_pressed
+                  - conditions: '{{ command == "press_1_and_3" }}'
+                    sequence: !input button_1_and_3_pressed
+                  - conditions: '{{ command == "press_2_and_4" }}'
+                    sequence: !input button_2_and_4_pressed
+            else:
               - choose:
                   - conditions: '{{ command == "press_1" }}'
                     sequence: !input button_1_held
