@@ -5,15 +5,15 @@ blueprint:
   description: |
     Controller automation for executing **press/hold/release** after hold actions triggered by EnOcean PTM 215Z/ZE switch.
 
-    ℹ️ Version 2024.11.13
+    ℹ️ Version 2024.12.15
   domain: automation
   input:
     controller:
-      name: (Zigbee2MQTT) Controller Name
+      name: (Required) Controller Name
       description: The name of the controller as defined in z2m (e.g. Livingroom Switch)
       default: ""
     base_topic:
-      name: (Zigbee2MQTT) Base mqtt topic
+      name: (Required) Base mqtt topic
       description: The base topic as configured in z2m
       default: zigbee2mqtt
     hold_delay:
@@ -143,19 +143,22 @@ trigger_variables:
   controller: !input controller
 triggers:
   - trigger: mqtt
-    topic: '{{ base_topic ~ "/" ~ controller ~ "/action" }}'
-conditions: '{{ "release_" | string in trigger.payload or "press_" | string in trigger.payload }}'
+    topic: '{{ base_topic ~ "/" ~ controller }}'
+conditions:
+  and:
+    - '{{ trigger.payload_json.action is defined }}'
+    - '{{ trigger.payload_json.action not in ("", "unknown", "unavailable", "None") }}'
 actions:
   - variables:
-      command: '{{ trigger.payload }}'
+      command: '{{ trigger.payload_json.action }}'
   - choose:
       - conditions: '{{ "press_" | string in command }}'
         sequence:
           - wait_for_trigger:
               - trigger: mqtt
-                topic: '{{ base_topic ~ "/" ~ controller ~ "/action" }}'
-                payload: "release"
-                value_template: '{{ value.split("_")[0] }}'
+                topic: '{{ base_topic ~ "/" ~ controller }}'
+                payload: 'release'
+                value_template: '{{ value_json.action.split("_")[0] }}'
             timeout:
               milliseconds: !input hold_delay
           - if: '{{ wait.trigger != None }}'
