@@ -9,11 +9,11 @@ blueprint:
   domain: automation
   input:
     controller:
-      name: Controller Name
+      name: (Required) Controller Name
       description: The name of the controller as defined in z2m (e.g. Livingroom Switch)
       default: ""
     base_topic:
-      name: Base mqtt topic
+      name: (Required) Base mqtt topic
       description: The base topic as configured in z2m
       default: zigbee2mqtt
     hold_delay:
