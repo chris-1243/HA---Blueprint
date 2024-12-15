@@ -12,15 +12,15 @@ blueprint:
   domain: automation
   input:
     controller:
-      name: (Required) Controller Name
+      name: Controller Name
       description: The name of the controller as defined in z2m (e.g. Livingroom Switch)
       default: ""
     base_topic:
-      name: (Required) Base mqtt topic
+      name: Base mqtt topic
       description: The base topic as configured in z2m
       default: zigbee2mqtt
     helper_last_controller_event:
-      name: (Required) Helper - Last Controller Event
+      name: Helper - Last Controller Event
       description:
         Input Text used to store the last event fired by the controller.
         You will need to manually create a text input Helper entity for this.
