@@ -8,15 +8,15 @@ blueprint:
     Make sure to manually create a separate **Text Helper** per controller and define its entity in the automation. It's used to store the last controller event to filter possible
     empty events and handle 'button hold' actions.
 
-    ℹ️ Version 2024.11.13
+    ℹ️ Version 2024.12.15
   domain: automation
   input:
     controller:
-      name: (Zigbee2MQTT) Controller Name
+      name: (Required) Controller Name
       description: The name of the controller as defined in z2m (e.g. Livingroom Switch)
       default: ""
     base_topic:
-      name: (Zigbee2MQTT) Base mqtt topic
+      name: (Required) Base mqtt topic
       description: The base topic as configured in z2m
       default: zigbee2mqtt
     helper_last_controller_event:
@@ -156,12 +156,15 @@ trigger_variables:
   controller: !input controller
 triggers:
   - trigger: mqtt
-    topic: '{{ base_topic ~ "/" ~ controller ~ "/action" }}'
-conditions: '{{ "release" in trigger.payload or "press_" | string in trigger.payload }}'
+    topic: '{{ base_topic ~ "/" ~ controller }}'
+conditions:
+  and:
+    - '{{ trigger.payload_json.action is defined }}'
+    - '{{ trigger.payload_json.action not in ("", "unknown", "unavailable", "None") }}'
 actions:
   - variables:
       helper_last_controller_event: !input helper_last_controller_event
-      command: '{{ trigger.payload }}'
+      command: '{{ trigger.payload_json.action }}'
       prev_command: '{{ states(helper_last_controller_event) }}'
   - action: input_text.set_value
     data:
@@ -172,8 +175,9 @@ actions:
         sequence:
           - wait_for_trigger:
               - trigger: mqtt
-                topic: '{{ base_topic ~ "/" ~ controller ~ "/action" }}'
-                payload: "release"
+                topic: '{{ base_topic ~ "/" ~ controller }}'
+                payload: 'release'
+                value_template: '{{ value_json.action }}'
             timeout:
               milliseconds: !input hold_delay
           - if: '{{ wait.trigger != None }}'
