@@ -5,21 +5,22 @@ blueprint:
   description: |
     Controller automation for executing **press/hold/release** after hold actions triggered by EnOcean PTM 216Z switch.
 
-    Make sure to manually create a separate **Text Helper** per controller and define its entity in the automation. It's used to store the last controller event to handle **button hold** actions.
+    Make sure to manually create a separate **Text Helper** per controller and define its entity in the automation. It's used to store the last controller event to filter possible
+    empty events and handle 'button hold' actions.
 
-    ℹ️ Version 2024.12.15
+    ℹ️ Version 2024.12.26
   domain: automation
   input:
     controller:
-      name: Controller Name
+      name: (Required) Controller Name
       description: The name of the controller as defined in z2m (e.g. Livingroom Switch)
       default: ""
     base_topic:
-      name: Base mqtt topic
+      name: (Required) Base mqtt topic
       description: The base topic as configured in z2m
       default: zigbee2mqtt
     helper_last_controller_event:
-      name: Helper - Last Controller Event
+      name: (Required) Helper - Last Controller Event
       description:
         Input Text used to store the last event fired by the controller.
         You will need to manually create a text input Helper entity for this.
@@ -27,7 +28,6 @@ blueprint:
       selector:
         entity:
           domain: input_text
-          multiple: false
     hold_delay:
       name: Hold delay
       description: If the button has been held more than the configured Hold delay, the corresponding held action is triggered.
@@ -147,7 +147,7 @@ blueprint:
       default: []
       selector:
         action: {}
-  source_url: https://github.com/chris-1243/HA---Blueprint/blob/main/PTM_216Z%20(mqtt_trigger).yaml
+#  source_url: https://github.com/chris-1243/HA---Blueprint/blob/main/PTM_216Z%20(mqtt_trigger).yaml
 mode: single
 max_exceeded: silent
 trigger_variables:
@@ -155,28 +155,25 @@ trigger_variables:
   controller: !input controller
 triggers:
   - trigger: mqtt
-    topic: '{{ base_topic ~ "/" ~ controller }}'
-conditions:
-  and:
-    - '{{ trigger.payload_json.action is defined }}'
-    - '{{ trigger.payload_json.action not in ("", "unknown", "unavailable", "None") }}'
+    topic: '{{ base_topic ~ "/" ~ controller ~ "/action" }}'
+conditions: '{{ trigger.payload.split("_")[0] in ("press", "release") }}'
 actions:
   - variables:
       helper_last_controller_event: !input helper_last_controller_event
-      command: '{{ trigger.payload_json.action }}'
+      command: '{{ trigger.payload }}'
       prev_command: '{{ states(helper_last_controller_event) }}'
   - action: input_text.set_value
     data:
       entity_id: !input helper_last_controller_event
       value: '{{ command }}'
   - choose:
-      - conditions: '{{ "press_" | string in command }}'
+      - conditions: '{{ "press" | string in command }}'
         sequence:
           - wait_for_trigger:
               - trigger: mqtt
-                topic: '{{ base_topic ~ "/" ~ controller }}'
-                payload: 'release'
-                value_template: '{{ value_json.action }}'
+                topic: '{{ base_topic ~ "/" ~ controller ~ "/action" }}'
+                payload: "release"
+                value_template: '{{ value }}'
             timeout:
               milliseconds: !input hold_delay
           - if: '{{ wait.trigger != None }}'
