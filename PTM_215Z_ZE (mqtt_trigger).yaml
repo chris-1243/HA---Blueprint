@@ -144,7 +144,7 @@ trigger_variables:
 triggers:
   - trigger: mqtt
     topic: '{{ base_topic ~ "/" ~ controller ~ "/action" }}'
-conditions: '{{ trigger.payload.split("_")[0] in ("press", "release") }}'
+conditions: '{{ trigger.payload.split("_", 1)[0] in ("press", "release") }}'
 actions:
   - variables:
       command: '{{ trigger.payload }}'
@@ -155,7 +155,7 @@ actions:
               - trigger: mqtt
                 topic: '{{ base_topic ~ "/" ~ controller ~ "/action" }}'
                 payload: "release"
-                value_template: '{{ value.split("_")[0] }}'
+                value_template: '{{ value.split("_", 1)[0] }}'
             timeout:
               milliseconds: !input hold_delay
           - if: '{{ wait.trigger != None }}'
