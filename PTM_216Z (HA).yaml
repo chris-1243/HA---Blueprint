@@ -146,6 +146,7 @@ blueprint:
       default: []
       selector:
         action: {}
+  source_url: https://github.com/chris-1243/HA---Blueprint/edit/main/PTM_216Z%20(HA).yaml
 mode: single
 max_exceeded: silent
 trigger:
