@@ -135,7 +135,7 @@ blueprint:
       default: []
       selector:
         action: {}
-#  source_url: https://github.com/chris-1243/HA---Blueprint/blob/main/test/PTM_215Z/ZE%20(HA).yaml
+  source_url: https://github.com/chris-1243/HA---Blueprint/blob/main/test/PTM215Z_ZE%20(HA).yaml
 mode: single
 max_exceeded: silent
 triggers:
