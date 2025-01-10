@@ -8,23 +8,23 @@ blueprint:
     Make sure to manually create a separate **Text Helper** per controller and define its entity in the automation. It's used to store the last controller event to filter possible
     empty events and handle 'button hold' actions.
 
-    ℹ️ Version 2024.12.26
+    ℹ️ Version 2025.01.09
   domain: automation
   input:
     controller:
       name: (Required) Controller Name
       description: The name of the controller as defined in z2m (e.g. Livingroom Switch)
-      default: ""
+      default: []
     base_topic:
       name: (Required) Base mqtt topic
       description: The base topic as configured in z2m
       default: zigbee2mqtt
     helper_last_controller_event:
       name: (Required) Helper - Last Controller Event
-      description:
+      description: |
         Input Text used to store the last event fired by the controller.
         You will need to manually create a text input Helper entity for this.
-      default: ""
+      default: []
       selector:
         entity:
           domain: input_text
