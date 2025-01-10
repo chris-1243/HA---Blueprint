@@ -11,7 +11,7 @@ blueprint:
     controller:
       name: (Required) Controller Name
       description: The name of the controller as defined in z2m (e.g. Livingroom Switch)
-      default: ""
+      default: []
     base_topic:
       name: (Required) Base mqtt topic
       description: The base topic as configured in z2m
