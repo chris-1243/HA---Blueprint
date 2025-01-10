@@ -5,7 +5,7 @@ blueprint:
   description: |
     Controller automation for executing **press/hold/release** after hold actions triggered by EnOcean PTM 215Z/ZE switch.
 
-    ℹ️ Version 2024.12.26
+    ℹ️ Version 2025.01.09
   domain: automation
   input:
     controller:
