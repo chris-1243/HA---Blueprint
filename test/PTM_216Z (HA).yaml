@@ -5,7 +5,7 @@ blueprint:
   description: |
     Controller automation for executing **press/hold/release** after hold actions triggered by EnOcean PTM 216Z switch.
 
-    ℹ️ Version 2024.12.26
+    ℹ️ Version 2025.01.09
   domain: automation
   input:
     controller_entity:
@@ -145,8 +145,8 @@ triggers:
       entity_id: !input controller_entity
 conditions: 
   and:
-    - '{{ trigger.event.data.new_state.state not in ("", "unknown", "unavailable", "None") }}'
-    - '{{ trigger.event.data.old_state.state not in ("", "unknown", "unavailable", "None") }}'
+    - '{{ trigger.event.data.new_state.state not in ( "unknown", "unavailable" ) }}'
+    - '{{ trigger.event.data.old_state.state not in ( "unknown", "unavailable" ) }}'
 actions:
   - variables:
       command: '{{ trigger.event.data.new_state.attributes.event_type }}'
