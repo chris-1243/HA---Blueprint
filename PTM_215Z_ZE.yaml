@@ -1,11 +1,11 @@
 blueprint:
   homeassistant:
     min_version: 2024.10.0
-  name: Controller - EnOcean PTM 215Z/ZE (MQTT trigger)
+  name: EnOcean PTM 215Z/ZE (MQTT trigger)
   description: |
     Controller automation for executing **press/hold/release** after hold actions triggered by EnOcean PTM 215Z/ZE switch.
 
-    ℹ️ Version 2025.01.09
+    ℹ️ Version 2025.01.14
   domain: automation
   input:
     controller:
@@ -99,43 +99,43 @@ blueprint:
       default: []
       selector:
         action: {}
-    button_1_and_3_pressed:
-      name: Button 1 and 3 Pressed
+    buttons_1_and_3_pressed:
+      name: Buttons 1 and 3 Pressed
       description: Action to run, when buttons 1 and 3 are pressed.
       default: []
       selector:
         action: {}
-    button_1_and_3_held:
-      name: Button 1 and 3 Held
+    buttons_1_and_3_held:
+      name: Buttons 1 and 3 Held
       description: Action to run, when buttons 1 and 3 are held.
       default: []
       selector:
         action: {}
-    button_1_and_3_released:
-      name: Button 1 and 3 released
+    buttons_1_and_3_released:
+      name: Buttons 1 and 3 released
       description: Action to run, when buttons 1 and 3 are released after long press.
       default: []
       selector:
         action: {}
-    button_2_and_4_pressed:
-      name: Button 2 and 4 Pressed
+    buttons_2_and_4_pressed:
+      name: Buttons 2 and 4 Pressed
       description: Action to run, when buttons 2 and 4 are pressed.
       default: []
       selector:
         action: {}
-    button_2_and_4_held:
-      name: Button 2 and 4 Held
+    buttons_2_and_4_held:
+      name: Buttons 2 and 4 Held
       description: Action to run, when buttons 2 and 4 are held.
       default: []
       selector:
         action: {}
-    button_2_and_4_released:
-      name: Button 2 and 4 released
+    buttons_2_and_4_released:
+      name: Buttons 2 and 4 released
       description: Action to run, when buttons 2 and 4 are released after long press.
       default: []
       selector:
         action: {}
-  source_url: https://github.com/chris-1243/HA---Blueprint/blob/main/PTM_215Z_ZE.yaml
+#  source_url: https://github.com/chris-1243/HA---Blueprint/blob/main/PTM_215Z_ZE.yaml
 mode: single
 max_exceeded: silent
 trigger_variables:
@@ -170,9 +170,9 @@ actions:
                   - conditions: '{{ command == "press_4" }}'
                     sequence: !input button_4_pressed
                   - conditions: '{{ command == "press_1_and_3" }}'
-                    sequence: !input button_1_and_3_pressed
+                    sequence: !input buttons_1_and_3_pressed
                   - conditions: '{{ command == "press_2_and_4" }}'
-                    sequence: !input button_2_and_4_pressed
+                    sequence: !input buttons_2_and_4_pressed
             else:
               - choose:
                   - conditions: '{{ command == "press_1" }}'
@@ -184,9 +184,9 @@ actions:
                   - conditions: '{{ command == "press_4" }}'
                     sequence: !input button_4_held
                   - conditions: '{{ command == "press_1_and_3" }}'
-                    sequence: !input button_1_and_3_held
+                    sequence: !input buttons_1_and_3_held
                   - conditions: '{{ command == "press_2_and_4" }}'
-                    sequence: !input button_2_and_4_held
+                    sequence: !input buttons_2_and_4_held
       - conditions: '{{ "release" | string in command }}'
         sequence:
           - choose:
@@ -199,6 +199,6 @@ actions:
               - conditions: '{{ command == "release_4" }}'
                 sequence: !input button_4_released
               - conditions: '{{ command == "release_1_and_3" }}'
-                sequence: !input button_1_and_3_released
+                sequence: !input buttons_1_and_3_released
               - conditions: '{{ command == "release_2_and_4" }}'
-                sequence: !input button_2_and_4_released
+                sequence: !input buttons_2_and_4_released
