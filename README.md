@@ -6,7 +6,7 @@ There will be an update for the new `event` action when this feature will move f
 **UPDATE**
 
 **2025.01.14 :**
-Before updating, please read carefully this note. This will apply to all version from 2025.01.14 or later
+Before updating, please read carefully this note. This will apply to all version from 2025.01.14 or later.
 
 There are some syntax changes which impact the `button_x_and_y_***` action. Your automation based on this function will have to be updated according to the next sentence: 
 
