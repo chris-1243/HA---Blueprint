@@ -99,37 +99,37 @@ blueprint:
       default: []
       selector:
         action: {}
-    buttons_1_and_3_pressed:
+    button_1_and_3_pressed:
       name: Buttons 1 and 3 Pressed
       description: Action to run, when buttons 1 and 3 are pressed.
       default: []
       selector:
         action: {}
-    buttons_1_and_3_held:
+    button_1_and_3_held:
       name: Buttons 1 and 3 Held
       description: Action to run, when buttons 1 and 3 are held.
       default: []
       selector:
         action: {}
-    buttons_1_and_3_released:
+    button_1_and_3_released:
       name: Buttons 1 and 3 released
       description: Action to run, when buttons 1 and 3 are released after long press.
       default: []
       selector:
         action: {}
-    buttons_2_and_4_pressed:
+    button_2_and_4_pressed:
       name: Buttons 2 and 4 Pressed
       description: Action to run, when buttons 2 and 4 are pressed.
       default: []
       selector:
         action: {}
-    buttons_2_and_4_held:
+    button_2_and_4_held:
       name: Buttons 2 and 4 Held
       description: Action to run, when buttons 2 and 4 are held.
       default: []
       selector:
         action: {}
-    buttons_2_and_4_released:
+    button_2_and_4_released:
       name: Buttons 2 and 4 released
       description: Action to run, when buttons 2 and 4 are released after long press.
       default: []
@@ -175,9 +175,9 @@ actions:
                   - conditions: '{{ command == "press_4" }}'
                     sequence: !input button_4_pressed
                   - conditions: '{{ command == "press_1_and_3" }}'
-                    sequence: !input buttons_1_and_3_pressed
+                    sequence: !input button_1_and_3_pressed
                   - conditions: '{{ command == "press_2_and_4" }}'
-                    sequence: !input buttons_2_and_4_pressed
+                    sequence: !input button_2_and_4_pressed
             else:
               - choose:
                   - conditions: '{{ command == "press_1" }}'
@@ -189,9 +189,9 @@ actions:
                   - conditions: '{{ command == "press_4" }}'
                     sequence: !input button_4_held
                   - conditions: '{{ command == "press_1_and_3" }}'
-                    sequence: !input buttons_1_and_3_held
+                    sequence: !input button_1_and_3_held
                   - conditions: '{{ command == "press_2_and_4" }}'
-                    sequence: !input buttons_2_and_4_held
+                    sequence: !input button_2_and_4_held
       - conditions: '{{ "release" | string in command }}'
         sequence:
           - choose:
@@ -204,6 +204,6 @@ actions:
               - conditions: '{{ command == "release_4" }}'
                 sequence: !input button_4_released
               - conditions: '{{ command == "release_1_and_3" }}'
-                sequence: !input buttons_1_and_3_released
+                sequence: !input button_1_and_3_released
               - conditions: '{{ command == "release_2_and_4" }}'
-                sequence: !input buttons_2_and_4_released
+                sequence: !input button_2_and_4_released
