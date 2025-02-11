@@ -5,7 +5,7 @@ blueprint:
   description: |
     Controller automation for executing **press/hold/release** after hold actions triggered by EnOcean PTM 216Z switch.
 
-    ℹ️ Version 2025.01.14
+    ℹ️ Version 2025.02.11
   domain: automation
   input:
     controller_entity:
@@ -40,7 +40,7 @@ blueprint:
       selector:
         action: {}
     button_1_released:
-      name: Button 1 released
+      name: Button 1 Released
       description: Action to run, when the button 1 is released after long press.
       default: []
       selector:
@@ -58,7 +58,7 @@ blueprint:
       selector:
         action: {}
     button_2_released:
-      name: Button 2 released
+      name: Button 2 Released
       description: Action to run, when the button 2 is released after long press.
       default: []
       selector:
@@ -76,7 +76,7 @@ blueprint:
       selector:
         action: {}
     button_3_released:
-      name: Button 3 released
+      name: Button 3 Released
       description: Action to run, when the button 3 is released after long press.
       default: []
       selector:
@@ -94,7 +94,7 @@ blueprint:
       selector:
         action: {}
     button_4_released:
-      name: Button 4 released
+      name: Button 4 Released
       description: Action to run, when the button 4 is released after long press.
       default: []
       selector:
@@ -112,7 +112,7 @@ blueprint:
       selector:
         action: {}
     button_1_and_3_released:
-      name: Buttons 1 and 3 released
+      name: Buttons 1 and 3 Released
       description: Action to run, when buttons 1 and 3 are released after long press.
       default: []
       selector:
@@ -130,13 +130,13 @@ blueprint:
       selector:
         action: {}
     button_2_and_4_released:
-      name: Buttons 2 and 4 released
+      name: Buttons 2 and 4 Released
       description: Action to run, when buttons 2 and 4 are released after long press.
       default: []
       selector:
         action: {}
-  source_url: https://github.com/chris-1243/HA---Blueprint/blob/main/test/PTM_216Z%20(HA).yaml
-mode: single
+#  source_url: https://github.com/chris-1243/HA---Blueprint/blob/main/test/PTM_216Z%20(HA).yaml
+mode: restart
 max_exceeded: silent
 triggers:
   - trigger: event
@@ -151,57 +151,55 @@ actions:
   - variables:
       command: '{{ trigger.event.data.new_state.attributes.event_type }}'
       prev_command: '{{ trigger.event.data.old_state.attributes.event_type }}'
+      timer: '{{ ((trigger.event.data.new_state.last_changed -
+        trigger.event.data.old_state.last_changed).total_seconds()) * 1000 }}'
+      hold_delay: !input hold_delay
   - choose:
       - conditions: '{{ "press" | string in command }}'
         sequence:
-          - wait_for_trigger:
-              - trigger: state
-                entity_id: !input controller_entity
-                attribute: event_type
-                to: 'release'
-            timeout:
-              milliseconds: !input hold_delay
-          - if: '{{ wait.trigger != None }}'
-            then:
-              - choose:
-                  - conditions: '{{ command == "press_1" }}'
-                    sequence: !input button_1_pressed
-                  - conditions: '{{ command == "press_2" }}'
-                    sequence: !input button_2_pressed
-                  - conditions: '{{ command == "press_3" }}'
-                    sequence: !input button_3_pressed
-                  - conditions: '{{ command == "press_4" }}'
-                    sequence: !input button_4_pressed
-                  - conditions: '{{ command == "press_1_and_3" }}'
-                    sequence: !input button_1_and_3_pressed
-                  - conditions: '{{ command == "press_2_and_4" }}'
-                    sequence: !input button_2_and_4_pressed
-            else:
-              - choose:
-                  - conditions: '{{ command == "press_1" }}'
-                    sequence: !input button_1_held
-                  - conditions: '{{ command == "press_2" }}'
-                    sequence: !input button_2_held
-                  - conditions: '{{ command == "press_3" }}'
-                    sequence: !input button_3_held
-                  - conditions: '{{ command == "press_4" }}'
-                    sequence: !input button_4_held
-                  - conditions: '{{ command == "press_1_and_3" }}'
-                    sequence: !input button_1_and_3_held
-                  - conditions: '{{ command == "press_2_and_4" }}'
-                    sequence: !input button_2_and_4_held
+          - delay:
+              milliseconds: '{{ hold_delay }}'
+          - choose:
+              - conditions: '{{ command == "press_1" }}'
+                sequence: !input button_1_held
+              - conditions: '{{ command == "press_2" }}'
+                sequence: !input button_2_held
+              - conditions: '{{ command == "press_3" }}'
+                sequence: !input button_3_held
+              - conditions: '{{ command == "press_4" }}'
+                sequence: !input button_4_held
+              - conditions: '{{ command == "press_1_and_3" }}'
+                sequence: !input button_1_and_3_held
+              - conditions: '{{ command == "press_2_and_4" }}'
+                sequence: !input button_2_and_4_held
       - conditions: '{{ "release" in command }}'
         sequence:
-          - choose:
-              - conditions: '{{ prev_command == "press_1" }}'
-                sequence: !input button_1_released
-              - conditions: '{{ prev_command == "press_2" }}'
-                sequence: !input button_2_released
-              - conditions: '{{ prev_command == "press_3" }}'
-                sequence: !input button_3_released
-              - conditions: '{{ prev_command == "press_4" }}'
-                sequence: !input button_4_released
-              - conditions: '{{ prev_command == "press_1_and_3" }}'
-                sequence: !input button_1_and_3_released
-              - conditions: '{{ prev_command == "press_2_and_4" }}'
-                sequence: !input button_2_and_4_released
+          - if: '{{ timer > hold_delay }}'
+            then:
+              - choose:
+                  - conditions: '{{ prev_command == "press_1" }}'
+                    sequence: !input button_1_released
+                  - conditions: '{{ prev_command == "press_2" }}'
+                    sequence: !input button_2_released
+                  - conditions: '{{ prev_command == "press_3" }}'
+                    sequence: !input button_3_released
+                  - conditions: '{{ prev_command == "press_4" }}'
+                    sequence: !input button_4_released
+                  - conditions: '{{ prev_command == "press_1_and_3" }}'
+                    sequence: !input button_1_and_3_released
+                  - conditions: '{{ prev_command == "press_2_and_4" }}'
+                    sequence: !input button_2_and_4_released
+            else:
+              - choose:
+                  - conditions: '{{ prev_command == "press_1" }}'
+                    sequence: !input button_1_pressed
+                  - conditions: '{{ prev_command == "press_2" }}'
+                    sequence: !input button_2_pressed
+                  - conditions: '{{ prev_command == "press_3" }}'
+                    sequence: !input button_3_pressed
+                  - conditions: '{{ prev_command == "press_4" }}'
+                    sequence: !input button_4_pressed
+                  - conditions: '{{ prev_command == "press_1_and_3" }}'
+                    sequence: !input button_1_and_3_pressed
+                  - conditions: '{{ prev_command == "press_2_and_4" }}'
+                    sequence: !input button_2_and_4_pressed
