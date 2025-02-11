@@ -1,13 +1,13 @@
 blueprint:
   homeassistant:
     min_version: 2024.10.0
-  name: EnOcean PTM 215Z/ZE (MQTT trigger)
+  name: EnOcean PTM 215Z/ZE (MQTT trigger) (v2)
   description: |
     Controller automation for executing **press/hold/release** after hold actions triggered by EnOcean PTM 215Z/ZE switch.
     
     **Elapsed** has to be enabled in Zigbee2mqtt (Settings --> Advanced).
 
-    ℹ️ Version 2025.02.10
+    ℹ️ Version 2025.02.11
   domain: automation
   input:
     controller:
