@@ -1,7 +1,7 @@
 blueprint:
   homeassistant:
     min_version: 2024.10.0
-  name: EnOcean PTM 216Z (MQTT trigger)
+  name: EnOcean PTM 216Z (MQTT trigger) (v2)
   description: |
     Controller automation for executing **press/hold/release** after hold actions triggered by EnOcean PTM 216Z switch.
     
@@ -10,7 +10,7 @@ blueprint:
     Make sure to manually create a separate **Text Helper** per controller and define its entity in the automation. It's used to store the last controller event to filter possible
     empty events and handle 'button hold' actions.
 
-    ℹ️ Version 2025.02.10
+    ℹ️ Version 2025.02.11
   domain: automation
   input:
     controller:
