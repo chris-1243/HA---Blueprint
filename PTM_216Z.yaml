@@ -52,7 +52,7 @@ blueprint:
       selector:
         action: {}
     button_1_released:
-      name: Button 1 released
+      name: Button 1 Released
       description: Action to run, when the button 1 is released after long press.
       default: []
       selector:
@@ -70,7 +70,7 @@ blueprint:
       selector:
         action: {}
     button_2_released:
-      name: Button 2 released
+      name: Button 2 Released
       description: Action to run, when the button 2 is released after long press.
       default: []
       selector:
@@ -88,7 +88,7 @@ blueprint:
       selector:
         action: {}
     button_3_released:
-      name: Button 3 released
+      name: Button 3 Released
       description: Action to run, when the button 3 is released after long press.
       default: []
       selector:
@@ -106,7 +106,7 @@ blueprint:
       selector:
         action: {}
     button_4_released:
-      name: Button 4 released
+      name: Button 4 Released
       description: Action to run, when the button 4 is released after long press.
       default: []
       selector:
@@ -124,7 +124,7 @@ blueprint:
       selector:
         action: {}
     button_1_and_3_released:
-      name: Buttons 1 and 3 released
+      name: Buttons 1 and 3 Released
       description: Action to run, when buttons 1 and 3 are released after long press.
       default: []
       selector:
@@ -142,7 +142,7 @@ blueprint:
       selector:
         action: {}
     button_2_and_4_released:
-      name: Buttons 2 and 4 released
+      name: Buttons 2 and 4 Released
       description: Action to run, when buttons 2 and 4 are released after long press.
       default: []
       selector:
