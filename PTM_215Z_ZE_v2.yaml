@@ -7,7 +7,7 @@ blueprint:
     
     **Elapsed** has to be enabled in Zigbee2mqtt (Settings --> Advanced).
 
-    ℹ️ Version 2025.02.11
+    ℹ️ Version 2025.02.12
   domain: automation
   input:
     controller:
@@ -137,6 +137,43 @@ blueprint:
       default: []
       selector:
         action: {}
+#### PTM215ZE only
+    button_1_and_4_pressed:
+      name: PTM215ZE ONLY - Buttons 1 and 4 Pressed
+      description: Action to run, when buttons 1 and 4 are pressed.
+      default: []
+      selector:
+        action: {}
+    button_1_and_4_held:
+      name: PTM215ZE ONLY - Buttons 1 and 4 Held
+      description: Action to run, when buttons 1 and 4 are held.
+      default: []
+      selector:
+        action: {}
+    button_1_and_4_released:
+      name: PTM215ZE ONLY - Button 1 and 4 Released
+      description: Action to run, when buttons 1 and 4 are released after long press.
+      default: []
+      selector:
+        action: {}
+    button_2_and_3_pressed:
+      name: PTM215ZE ONLY - Buttons 2 and 3 Pressed
+      description: Action to run, when buttons 2 and 3 are pressed.
+      default: []
+      selector:
+        action: {}
+    button_2_and_3_held:
+      name: PTM215ZE ONLY - Buttons 2 and 3 Held
+      description: Action to run, when buttons 2 and 3 are held.
+      default: []
+      selector:
+        action: {}
+    button_2_and_3_released:
+      name: PTM215ZE ONLY - Buttons 2 and 3 Released
+      description: Action to run, when buttons 2 and 3 are released after long press.
+      default: []
+      selector:
+        action: {}
   source_url: https://github.com/chris-1243/HA---Blueprint/blob/main/PTM_215Z_ZE_v2.yaml
 mode: restart
 max_exceeded: silent
@@ -173,6 +210,10 @@ actions:
                 sequence: !input button_1_and_3_held
               - conditions: '{{ command == "press_2_and_4" }}'
                 sequence: !input button_2_and_4_held
+              - conditions: '{{ command == "press_1_and_4" }}'
+                sequence: !input button_1_and_4_held
+              - conditions: '{{ command == "press_2_and_3" }}'
+                sequence: !input button_2_and_3_held
       - conditions: '{{ "release" in command }}'
         sequence:
           - if: '{{ trigger.payload_json.elapsed | int > hold_delay }}'
@@ -190,6 +231,10 @@ actions:
                     sequence: !input button_1_and_3_released
                   - conditions: '{{ command == "release_2_and_4" }}'
                     sequence: !input button_2_and_4_released
+                  - conditions: '{{ command == "release_1_and_4" }}'
+                    sequence: !input button_1_and_4_released
+                  - conditions: '{{ command == "release_2_and_3" }}'
+                    sequence: !input button_2_and_3_released
             else:
               - choose:
                   - conditions: '{{ command == "release_1" }}'
@@ -204,3 +249,7 @@ actions:
                     sequence: !input button_1_and_3_pressed
                   - conditions: '{{ command == "release_2_and_4" }}'
                     sequence: !input button_2_and_4_pressed
+                  - conditions: '{{ command == "release_1_and_4" }}'
+                    sequence: !input button_1_and_4_pressed
+                  - conditions: '{{ command == "release_2_and_3" }}'
+                    sequence: !input button_2_and_3_pressed
