@@ -5,7 +5,7 @@ blueprint:
   description: |
     Controller automation for executing **press/hold/release** after hold actions triggered by EnOcean PTM 216Z switch.
 
-    ℹ️ Version 2025.02.11
+    ℹ️ Version 2025.02.12
   domain: automation
   input:
     controller_entity:
@@ -135,7 +135,7 @@ blueprint:
       default: []
       selector:
         action: {}
-#  source_url: https://github.com/chris-1243/HA---Blueprint/blob/main/test/PTM_216Z%20(HA).yaml
+  source_url: https://github.com/chris-1243/HA---Blueprint/blob/main/test/PTM_216Z%20(HA).yaml
 mode: restart
 max_exceeded: silent
 triggers:
@@ -143,7 +143,7 @@ triggers:
     event_type: state_changed
     event_data:
       entity_id: !input controller_entity
-conditions: 
+conditions:
   and:
     - '{{ trigger.event.data.new_state.state not in ( "unknown", "unavailable" ) }}'
     - '{{ trigger.event.data.old_state.state not in ( "unknown", "unavailable" ) }}'
@@ -151,7 +151,7 @@ actions:
   - variables:
       command: '{{ trigger.event.data.new_state.attributes.event_type }}'
       prev_command: '{{ trigger.event.data.old_state.attributes.event_type }}'
-      timer: '{{ ((trigger.event.data.new_state.last_changed -
+      trigger_delta: '{{ ((trigger.event.data.new_state.last_changed -
         trigger.event.data.old_state.last_changed).total_seconds()) * 1000 }}'
       hold_delay: !input hold_delay
   - choose:
@@ -174,7 +174,7 @@ actions:
                 sequence: !input button_2_and_4_held
       - conditions: '{{ "release" in command }}'
         sequence:
-          - if: '{{ timer > hold_delay }}'
+          - if: '{{ trigger_delta > hold_delay }}'
             then:
               - choose:
                   - conditions: '{{ prev_command == "press_1" }}'
