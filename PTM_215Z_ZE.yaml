@@ -3,176 +3,195 @@ blueprint:
     min_version: 2024.10.0
   name: EnOcean PTM 215Z/ZE (MQTT trigger)
   description: |
-    Controller automation for executing **press/hold/release** after hold actions triggered by EnOcean PTM 215Z/ZE switch.
+    Controller automation for executing **press/hold/release** actions triggered by EnOcean PTM 215Z/ZE switch.
 
-    ℹ️ Version 2025.02.12
+    **SETTINGS**
+    In this tab, there is the possibility to change different parameters.
+      - **Base topic**
+      - **Hold delay**
+
+    ℹ️ Version 2025.02.19
   domain: automation
   input:
     controller:
-      name: (Required) Controller Name
-      description: The name of the controller as defined in z2m (e.g. Livingroom Switch)
+      name: Controller Name
+      description: The name of the controller as defined in Z2M (e.g. Livingroom Switch)
       default: []
-    base_topic:
-      name: (Required) Base mqtt topic
-      description: The base topic as configured in z2m
-      default: zigbee2mqtt
-    hold_delay:
-      name: (Required) Hold delay
-      description: If the button has been held more than the configured Hold delay, the corresponding held action is triggered.
-      default: 500
-      selector:
-        number:
-          min: 100.0
-          max: 1000.0
-          unit_of_measurement: milliseconds
-          mode: box
-          step: 10.0
-    button_1_pressed:
-      name: Button 1 Pressed
-      description: Action to run, when button 1 is pressed.
-      default: []
-      selector:
-        action: {}
-    button_1_held:
-      name: Button 1 Held
-      description: Action to run, when the button 1 is held.
-      default: []
-      selector:
-        action: {}
-    button_1_released:
-      name: Button 1 Released
-      description: Action to run, when the button 1 is released after long press.
-      default: []
-      selector:
-        action: {}
-    button_2_pressed:
-      name: Button 2 Pressed
-      description: Action to run, when the button 2 pressed.
-      default: []
-      selector:
-        action: {}
-    button_2_held:
-      name: Button 2 Held
-      description: Action to run, when the button 2 is held.
-      default: []
-      selector:
-        action: {}
-    button_2_released:
-      name: Button 2 Released
-      description: Action to run, when the button 2 is released after long press.
-      default: []
-      selector:
-        action: {}
-    button_3_pressed:
-      name: Button 3 Pressed
-      description: Action to run, when the button 3 is pressed.
-      default: []
-      selector:
-        action: {}
-    button_3_held:
-      name: Button 3 Held
-      description: Action to run, when the button 3 is held.
-      default: []
-      selector:
-        action: {}
-    button_3_released:
-      name: Button 3 Released
-      description: Action to run, when the button 3 is released after long press.
-      default: []
-      selector:
-        action: {}
-    button_4_pressed:
-      name: Button 4 Pressed
-      description: Action to run, when the button 4 is pressed.
-      default: []
-      selector:
-        action: {}
-    button_4_held:
-      name: Button 4 Held
-      description: Action to run, when the button 4 is held.
-      default: []
-      selector:
-        action: {}
-    button_4_released:
-      name: Button 4 Released
-      description: Action to run, when the button 4 is released after long press.
-      default: []
-      selector:
-        action: {}
-    button_1_and_3_pressed:
-      name: Buttons 1 and 3 Pressed
-      description: Action to run, when buttons 1 and 3 are pressed.
-      default: []
-      selector:
-        action: {}
-    button_1_and_3_held:
-      name: Buttons 1 and 3 Held
-      description: Action to run, when buttons 1 and 3 are held.
-      default: []
-      selector:
-        action: {}
-    button_1_and_3_released:
-      name: Buttons 1 and 3 Released
-      description: Action to run, when buttons 1 and 3 are released after long press.
-      default: []
-      selector:
-        action: {}
-    button_2_and_4_pressed:
-      name: Buttons 2 and 4 Pressed
-      description: Action to run, when buttons 2 and 4 are pressed.
-      default: []
-      selector:
-        action: {}
-    button_2_and_4_held:
-      name: Buttons 2 and 4 Held
-      description: Action to run, when buttons 2 and 4 are held.
-      default: []
-      selector:
-        action: {}
-    button_2_and_4_released:
-      name: Buttons 2 and 4 Released
-      description: Action to run, when buttons 2 and 4 are released after long press.
-      default: []
-      selector:
-        action: {}
-#### PTM215ZE only
-    button_1_and_4_pressed:
-      name: PTM215ZE ONLY - Buttons 1 and 4 Pressed
-      description: Action to run, when buttons 1 and 4 are pressed.
-      default: []
-      selector:
-        action: {}
-    button_1_and_4_held:
-      name: PTM215ZE ONLY - Buttons 1 and 4 Held
-      description: Action to run, when buttons 1 and 4 are held.
-      default: []
-      selector:
-        action: {}
-    button_1_and_4_released:
-      name: PTM215ZE ONLY - Button 1 and 4 Released
-      description: Action to run, when buttons 1 and 4 are released after long press.
-      default: []
-      selector:
-        action: {}
-    button_2_and_3_pressed:
-      name: PTM215ZE ONLY - Buttons 2 and 3 Pressed
-      description: Action to run, when buttons 2 and 3 are pressed.
-      default: []
-      selector:
-        action: {}
-    button_2_and_3_held:
-      name: PTM215ZE ONLY - Buttons 2 and 3 Held
-      description: Action to run, when buttons 2 and 3 are held.
-      default: []
-      selector:
-        action: {}
-    button_2_and_3_released:
-      name: PTM215ZE ONLY - Buttons 2 and 3 Released
-      description: Action to run, when buttons 2 and 3 are released after long press.
-      default: []
-      selector:
-        action: {}
-  source_url: https://github.com/chris-1243/HA---Blueprint/blob/main/PTM_215Z_ZE.yaml
+    settings_section:
+      name: Settings
+      icon: mdi:cog-outline
+      collapsed: true
+      input:
+        base_topic:
+          name: Base topic (MQTT)
+          description: The base topic as configured in Z2M
+          default: zigbee2mqtt
+        hold_delay:
+          name: Hold delay
+          description: If the button has been held more than the configured Hold delay, the corresponding held action is triggered.
+          default: 500
+          selector:
+            number:
+              min: 100.0
+              max: 1000.0
+              unit_of_measurement: milliseconds
+              mode: box
+              step: 10.0
+    ptm215z_ze_actions:
+      name: PTM215Z/ZE - Actions
+      icon: mdi:gesture-tap
+      collapsed: true
+      input:
+        button_1_pressed:
+          name: Button 1 Pressed
+          description: Action to run, when button 1 is pressed.
+          default: []
+          selector:
+            action: {}
+        button_1_held:
+          name: Button 1 Held
+          description: Action to run, when the button 1 is held.
+          default: []
+          selector:
+            action: {}
+        button_1_released:
+          name: Button 1 Released
+          description: Action to run, when the button 1 is released after long press.
+          default: []
+          selector:
+            action: {}
+        button_2_pressed:
+          name: Button 2 Pressed
+          description: Action to run, when the button 2 pressed.
+          default: []
+          selector:
+            action: {}
+        button_2_held:
+          name: Button 2 Held
+          description: Action to run, when the button 2 is held.
+          default: []
+          selector:
+            action: {}
+        button_2_released:
+          name: Button 2 Released
+          description: Action to run, when the button 2 is released after long press.
+          default: []
+          selector:
+            action: {}
+        button_3_pressed:
+          name: Button 3 Pressed
+          description: Action to run, when the button 3 is pressed.
+          default: []
+          selector:
+            action: {}
+        button_3_held:
+          name: Button 3 Held
+          description: Action to run, when the button 3 is held.
+          default: []
+          selector:
+            action: {}
+        button_3_released:
+          name: Button 3 Released
+          description: Action to run, when the button 3 is released after long press.
+          default: []
+          selector:
+            action: {}
+        button_4_pressed:
+          name: Button 4 Pressed
+          description: Action to run, when the button 4 is pressed.
+          default: []
+          selector:
+            action: {}
+        button_4_held:
+          name: Button 4 Held
+          description: Action to run, when the button 4 is held.
+          default: []
+          selector:
+            action: {}
+        button_4_released:
+          name: Button 4 Released
+          description: Action to run, when the button 4 is released after long press.
+          default: []
+          selector:
+            action: {}
+        button_1_and_3_pressed:
+          name: Buttons 1 and 3 Pressed
+          description: Action to run, when buttons 1 and 3 are pressed.
+          default: []
+          selector:
+            action: {}
+        button_1_and_3_held:
+          name: Buttons 1 and 3 Held
+          description: Action to run, when buttons 1 and 3 are held.
+          default: []
+          selector:
+            action: {}
+        button_1_and_3_released:
+          name: Buttons 1 and 3 Released
+          description: Action to run, when buttons 1 and 3 are released after long press.
+          default: []
+          selector:
+            action: {}
+        button_2_and_4_pressed:
+          name: Buttons 2 and 4 Pressed
+          description: Action to run, when buttons 2 and 4 are pressed.
+          default: []
+          selector:
+            action: {}
+        button_2_and_4_held:
+          name: Buttons 2 and 4 Held
+          description: Action to run, when buttons 2 and 4 are held.
+          default: []
+          selector:
+            action: {}
+        button_2_and_4_released:
+          name: Buttons 2 and 4 Released
+          description: Action to run, when buttons 2 and 4 are released after long press.
+          default: []
+          selector:
+            action: {}
+    ptm215ze_actions:
+      name: PTM215ZE - Specific actions
+      icon: mdi:gesture-two-tap
+      collapsed: true
+      input:
+        button_1_and_4_pressed:
+          name: Buttons 1 and 4 Pressed
+          description: Action to run, when buttons 1 and 4 are pressed.
+          default: []
+          selector:
+            action: {}
+        button_1_and_4_held:
+          name: Buttons 1 and 4 Held
+          description: Action to run, when buttons 1 and 4 are held.
+          default: []
+          selector:
+            action: {}
+        button_1_and_4_released:
+          name: Button 1 and 4 Released
+          description: Action to run, when buttons 1 and 4 are released after long press.
+          default: []
+          selector:
+            action: {}
+        button_2_and_3_pressed:
+          name: Buttons 2 and 3 Pressed
+          description: Action to run, when buttons 2 and 3 are pressed.
+          default: []
+          selector:
+            action: {}
+        button_2_and_3_held:
+          name: Buttons 2 and 3 Held
+          description: Action to run, when buttons 2 and 3 are held.
+          default: []
+          selector:
+            action: {}
+        button_2_and_3_released:
+          name: Buttons 2 and 3 Released
+          description: Action to run, when buttons 2 and 3 are released after long press.
+          default: []
+          selector:
+            action: {}
+source_url: https://github.com/chris-1243/HA---Blueprint/blob/main/PTM_215Z_ZE.yaml
 mode: single
 max_exceeded: silent
 trigger_variables:
@@ -190,7 +209,7 @@ actions:
         sequence:
           - wait_for_trigger:
               - trigger: mqtt
-                topic: '{{ base_topic ~ "/" ~ controller ~ "/action" }}'
+                topic: '{{ trigger.topic }}'
                 payload: "release"
                 value_template: '{{ value.split("_", 1)[0] }}'
             timeout:
