@@ -196,8 +196,6 @@ blueprint:
   source_url: https://github.com/chris-1243/HA---Blueprint/blob/main/PTM_215Z_ZE_v2.yaml
 mode: restart
 max_exceeded: silent
-variables:
-  hold_delay: !input hold_delay
 trigger_variables:
   base_topic: !input base_topic
   controller: !input controller
@@ -211,6 +209,7 @@ conditions:
 actions:
   - variables:
       command: '{{ trigger.payload_json.action }}'
+      hold_delay: !input hold_delay
   - choose:
       - conditions: '{{ "press" | string in command }}'
         sequence:
