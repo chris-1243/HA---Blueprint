@@ -4,8 +4,12 @@ blueprint:
   name: Controller - EnOcean PTM 216Z (Events trigger)
   description: |
     Controller automation for executing **press/hold/release** after hold actions triggered by EnOcean PTM 216Z switch.
+    
+    **SETTINGS**
+    In this tab, there is the possibility to change different parameters.
+      - **Hold delay**
 
-    ℹ️ Version 2025.02.12
+    ℹ️ Version 2025.02.19
   domain: automation
   input:
     controller_entity:
@@ -16,125 +20,135 @@ blueprint:
         entity:
           integration: mqtt
           domain: event
-    hold_delay:
-      name: Hold delay
-      description: If the button has been held more than the configured Hold delay, the corresponding held action is triggered.
-      default: 500
-      selector:
-        number:
-          min: 100.0
-          max: 1000.0
-          unit_of_measurement: milliseconds
-          mode: box
-          step: 10.0
-    button_1_pressed:
-      name: Button 1 Pressed
-      description: Action to run, when button 1 is pressed.
-      default: []
-      selector:
-        action: {}
-    button_1_held:
-      name: Button 1 Held
-      description: Action to run, when the button 1 is held.
-      default: []
-      selector:
-        action: {}
-    button_1_released:
-      name: Button 1 Released
-      description: Action to run, when the button 1 is released after long press.
-      default: []
-      selector:
-        action: {}
-    button_2_pressed:
-      name: Button 2 Pressed
-      description: Action to run, when the button 2 pressed.
-      default: []
-      selector:
-        action: {}
-    button_2_held:
-      name: Button 2 Held
-      description: Action to run, when the button 2 is held.
-      default: []
-      selector:
-        action: {}
-    button_2_released:
-      name: Button 2 Released
-      description: Action to run, when the button 2 is released after long press.
-      default: []
-      selector:
-        action: {}
-    button_3_pressed:
-      name: Button 3 Pressed
-      description: Action to run, when the button 3 is pressed.
-      default: []
-      selector:
-        action: {}
-    button_3_held:
-      name: Button 3 Held
-      description: Action to run, when the button 3 is held.
-      default: []
-      selector:
-        action: {}
-    button_3_released:
-      name: Button 3 Released
-      description: Action to run, when the button 3 is released after long press.
-      default: []
-      selector:
-        action: {}
-    button_4_pressed:
-      name: Button 4 Pressed
-      description: Action to run, when the button 4 is pressed.
-      default: []
-      selector:
-        action: {}
-    button_4_held:
-      name: Button 4 Held
-      description: Action to run, when the button 4 is held.
-      default: []
-      selector:
-        action: {}
-    button_4_released:
-      name: Button 4 Released
-      description: Action to run, when the button 4 is released after long press.
-      default: []
-      selector:
-        action: {}
-    button_1_and_3_pressed:
-      name: Buttons 1 and 3 Pressed
-      description: Action to run, when buttons 1 and 3 are pressed.
-      default: []
-      selector:
-        action: {}
-    button_1_and_3_held:
-      name: Buttons 1 and 3 Held
-      description: Action to run, when buttons 1 and 3 are held.
-      default: []
-      selector:
-        action: {}
-    button_1_and_3_released:
-      name: Buttons 1 and 3 Released
-      description: Action to run, when buttons 1 and 3 are released after long press.
-      default: []
-      selector:
-        action: {}
-    button_2_and_4_pressed:
-      name: Buttons 2 and 4 Pressed
-      description: Action to run, when buttons 2 and 4 are pressed.
-      default: []
-      selector:
-        action: {}
-    button_2_and_4_held:
-      name: Buttons 2 and 4 Held
-      description: Action to run, when buttons 2 and 4 are held.
-      default: []
-      selector:
-        action: {}
-    button_2_and_4_released:
-      name: Buttons 2 and 4 Released
-      description: Action to run, when buttons 2 and 4 are released after long press.
-      default: []
-      selector:
-        action: {}
+    settings_section:
+      name: Settings
+      icon: mdi:cog-outline
+      collapsed: true
+      input:
+        hold_delay:
+          name: Hold delay
+          description: If the button has been held more than the configured Hold delay, the corresponding held action is triggered.
+          default: 500
+          selector:
+            number:
+              min: 100.0
+              max: 1000.0
+              unit_of_measurement: milliseconds
+              mode: box
+              step: 10.0
+    ptm216z_actions:
+      name: PTM216Z - Actions
+      icon: mdi:gesture-tap
+      collapsed: true
+      input:
+        button_1_pressed:
+          name: Button 1 Pressed
+          description: Action to run, when button 1 is pressed.
+          default: []
+          selector:
+            action: {}
+        button_1_held:
+          name: Button 1 Held
+          description: Action to run, when the button 1 is held.
+          default: []
+          selector:
+            action: {}
+        button_1_released:
+          name: Button 1 Released
+          description: Action to run, when the button 1 is released after long press.
+          default: []
+          selector:
+            action: {}
+        button_2_pressed:
+          name: Button 2 Pressed
+          description: Action to run, when the button 2 pressed.
+          default: []
+          selector:
+            action: {}
+        button_2_held:
+          name: Button 2 Held
+          description: Action to run, when the button 2 is held.
+          default: []
+          selector:
+            action: {}
+        button_2_released:
+          name: Button 2 Released
+          description: Action to run, when the button 2 is released after long press.
+          default: []
+          selector:
+            action: {}
+        button_3_pressed:
+          name: Button 3 Pressed
+          description: Action to run, when the button 3 is pressed.
+          default: []
+          selector:
+            action: {}
+        button_3_held:
+          name: Button 3 Held
+          description: Action to run, when the button 3 is held.
+          default: []
+          selector:
+            action: {}
+        button_3_released:
+          name: Button 3 Released
+          description: Action to run, when the button 3 is released after long press.
+          default: []
+          selector:
+            action: {}
+        button_4_pressed:
+          name: Button 4 Pressed
+          description: Action to run, when the button 4 is pressed.
+          default: []
+          selector:
+            action: {}
+        button_4_held:
+          name: Button 4 Held
+          description: Action to run, when the button 4 is held.
+          default: []
+          selector:
+            action: {}
+        button_4_released:
+          name: Button 4 Released
+          description: Action to run, when the button 4 is released after long press.
+          default: []
+          selector:
+            action: {}
+        button_1_and_3_pressed:
+          name: Buttons 1 and 3 Pressed
+          description: Action to run, when buttons 1 and 3 are pressed.
+          default: []
+          selector:
+            action: {}
+        button_1_and_3_held:
+          name: Buttons 1 and 3 Held
+          description: Action to run, when buttons 1 and 3 are held.
+          default: []
+          selector:
+            action: {}
+        button_1_and_3_released:
+          name: Buttons 1 and 3 Released
+          description: Action to run, when buttons 1 and 3 are released after long press.
+          default: []
+          selector:
+            action: {}
+        button_2_and_4_pressed:
+          name: Buttons 2 and 4 Pressed
+          description: Action to run, when buttons 2 and 4 are pressed.
+          default: []
+          selector:
+            action: {}
+        button_2_and_4_held:
+          name: Buttons 2 and 4 Held
+          description: Action to run, when buttons 2 and 4 are held.
+          default: []
+          selector:
+            action: {}
+        button_2_and_4_released:
+          name: Buttons 2 and 4 Released
+          description: Action to run, when buttons 2 and 4 are released after long press.
+          default: []
+          selector:
+            action: {}
   source_url: https://github.com/chris-1243/HA---Blueprint/blob/main/test/PTM_216Z%20(HA).yaml
 mode: restart
 max_exceeded: silent
@@ -150,10 +164,10 @@ conditions:
 actions:
   - variables:
       command: '{{ trigger.event.data.new_state.attributes.event_type }}'
+      hold_delay: !input hold_delay
       prev_command: '{{ trigger.event.data.old_state.attributes.event_type }}'
       trigger_delta: '{{ ((trigger.event.data.new_state.last_changed -
         trigger.event.data.old_state.last_changed).total_seconds()) * 1000 }}'
-      hold_delay: !input hold_delay
   - choose:
       - conditions: '{{ "press" | string in command }}'
         sequence:
