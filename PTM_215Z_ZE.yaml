@@ -10,7 +10,7 @@ blueprint:
       - **Base topic**
       - **Hold delay**
 
-    ℹ️ Version 2025.02.19
+    ℹ️ Version 2025.03.02
   domain: automation
   input:
     controller:
@@ -200,10 +200,10 @@ trigger_variables:
 triggers:
   - trigger: mqtt
     topic: '{{ base_topic ~ "/" ~ controller ~ "/action" }}'
-conditions: '{{ trigger.payload.split("_", 1)[0] in ("press", "release") }}'
+variables:
+  command: '{{ trigger.payload }}'
+conditions: '{{ command.split("_", 1)[0] in ("press", "release") }}'
 actions:
-  - variables:
-      command: '{{ trigger.payload }}'
   - choose:
       - conditions: '{{ "press" | string in command }}'
         sequence:
