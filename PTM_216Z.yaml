@@ -13,7 +13,7 @@ blueprint:
       - **Hold delay**
       - **Text Helper**
 
-    ℹ️ Version 2025.02.19
+    ℹ️ Version 2025.03.02
   domain: automation
   input:
     controller:
@@ -171,12 +171,12 @@ trigger_variables:
 triggers:
   - trigger: mqtt
     topic: '{{ base_topic ~ "/" ~ controller ~ "/action" }}'
-conditions: '{{ trigger.payload.split("_", 1)[0] in ("press", "release") }}'
+variables:
+  helper_last_controller_event: !input helper_last_controller_event
+  command: '{{ trigger.payload }}'
+  prev_command: '{{ states(helper_last_controller_event) }}'
+conditions: '{{ command.split("_", 1)[0] in ("press", "release") }}'
 actions:
-  - variables:
-      helper_last_controller_event: !input helper_last_controller_event
-      command: '{{ trigger.payload }}'
-      prev_command: '{{ states(helper_last_controller_event) }}'
   - action: input_text.set_value
     data:
       entity_id: !input helper_last_controller_event
