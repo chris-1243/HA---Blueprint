@@ -13,7 +13,7 @@ blueprint:
       - **Hold delay**
       - **Text Helper**
 
-    ℹ️ Version 2025.03.02
+    ℹ️ Version 2025.03.05
   domain: automation
   input:
     controller:
@@ -179,7 +179,7 @@ conditions: '{{ command.split("_", 1)[0] in ("press", "release") }}'
 actions:
   - action: input_text.set_value
     data:
-      entity_id: !input helper_last_controller_event
+      entity_id: '{{ helper_last_controller_event }}'
       value: '{{ command }}'
   - choose:
       - conditions: '{{ "press" | string in command }}'
