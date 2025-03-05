@@ -191,7 +191,7 @@ actions:
       - conditions: '{{ "press" | string in command }}'
         sequence:
           - delay:
-              milliseconds: !input "hold_delay"
+              milliseconds: '{{ hold_delay }}'
           - choose:
               - conditions: '{{ command == "press_1" }}'
                 sequence: !input button_1_held
