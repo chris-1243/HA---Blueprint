@@ -12,7 +12,7 @@ blueprint:
       - **Base topic**
       - **Hold delay**
 
-    ℹ️ Version 2025.02.19
+    ℹ️ Version 2025.03.05
   domain: automation
   input:
     controller:
@@ -214,7 +214,7 @@ actions:
       - conditions: '{{ "press" | string in command }}'
         sequence:
           - delay:
-              milliseconds: !input "hold_delay"
+              milliseconds: '{{ hold_delay }}'
           - choose:
               - conditions: '{{ command == "press_1" }}'
                 sequence: !input button_1_held
