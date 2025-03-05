@@ -15,7 +15,7 @@ blueprint:
       - **Hold delay**
       - **Text Helper**
 
-    ℹ️ Version 2025.02.19
+    ℹ️ Version 2025.03.05
   domain: automation
   input:
     controller:
@@ -185,7 +185,7 @@ actions:
       prev_command: '{{ states(helper_last_controller_event) }}'
   - action: input_text.set_value
     data:
-      entity_id: !input helper_last_controller_event
+      entity_id: '{{ helper_last_controller_event }}'
       value: '{{ command }}'
   - choose:
       - conditions: '{{ "press" | string in command }}'
