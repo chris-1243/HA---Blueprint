@@ -9,7 +9,7 @@ blueprint:
     In this tab, there is the possibility to change different parameters.
       - **Hold delay**
 
-    ℹ️ Version 2025.02.19
+    ℹ️ Version 2025.03.06
   domain: automation
   input: 
     controller_entity:
@@ -20,6 +20,7 @@ blueprint:
         entity:
           integration: mqtt
           domain: event
+          multiple: true
     settings_section:
       name: Settings
       icon: mdi:cog-outline
