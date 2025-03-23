@@ -13,13 +13,17 @@ blueprint:
       - **Hold delay**
       - **Text Helper**
 
-    ℹ️ Version 2025.03.05
+    ℹ️ Version 2025.03.10
   domain: automation
   input:
     controller:
       name: Controller Name
       description: The name of the controller as defined in Z2M (e.g. Livingroom_Switch)
       default: []
+      selector:
+        text:
+          type: text
+          multiple: true
     settings_section:
       name: Settings
       icon: mdi:cog-outline
@@ -167,15 +171,19 @@ mode: single
 max_exceeded: silent
 trigger_variables:
   base_topic: !input base_topic
-  controller: !input controller
 triggers:
   - trigger: mqtt
-    topic: '{{ base_topic ~ "/" ~ controller ~ "/action" }}'
+    topic: '{{ base_topic ~ "/+" ~ "/action" }}'
 variables:
   helper_last_controller_event: !input helper_last_controller_event
   command: '{{ trigger.payload }}'
+  controller: !input controller
+  mqtt_topic: '{{ trigger.topic }}'
   prev_command: '{{ states(helper_last_controller_event) }}'
-conditions: '{{ command.split("_", 1)[0] in ("press", "release") }}'
+conditions:
+  and:
+    - '{{ mqtt_topic.split("/")[1] in controller }}'
+    - '{{ command.split("_", 1)[0] in ("press", "release") }}'
 actions:
   - action: input_text.set_value
     data:
@@ -186,7 +194,7 @@ actions:
         sequence:
           - wait_for_trigger:
               - trigger: mqtt
-                topic: '{{ trigger.topic }}'
+                topic: '{{ mqtt_topic }}'
                 payload: "release"
                 value_template: '{{ value }}'
             timeout:
