@@ -255,9 +255,9 @@ actions:
                     sequence: !input button_1_and_3_pressed
                   - conditions: '{{ command == "press_2_and_4" }}'
                     sequence: !input button_2_and_4_pressed
-                  - conditions: '{{ prev_command == "press_1_and_4" }}'
+                  - conditions: '{{ command == "press_1_and_4" }}'
                     sequence: !input button_1_and_4_pressed
-                  - conditions: '{{ prev_command == "press_2_and_3" }}'
+                  - conditions: '{{ command == "press_2_and_3" }}'
                     sequence: !input button_2_and_3_pressed
             else:
               - choose:
