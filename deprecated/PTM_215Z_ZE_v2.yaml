@@ -1,0 +1,278 @@
+blueprint:
+  homeassistant:
+    min_version: 2024.10.0
+  name: EnOcean PTM 215Z/ZE (MQTT trigger) (v2)
+  description: |
+    Controller automation for executing **press/hold/release** after hold actions triggered by EnOcean PTM 215Z/ZE switch.
+    
+    **Elapsed** has to be enabled in Zigbee2mqtt (Settings --> Advanced).
+
+    **SETTINGS**
+    In this tab, there is the possibility to change different parameters.
+      - **Base topic**
+      - **Hold delay**
+
+    ℹ️ Version 2025.03.30
+  domain: automation
+  input:
+    controller:
+      name: Controller Name
+      description: The name of the controller as defined in Z2M (e.g. Livingroom Switch)
+      default: []
+      selector:
+        text:
+          type: text
+          multiple: true
+    settings_section:
+      name: Settings
+      icon: mdi:cog-outline
+      collapsed: true
+      input:
+        base_topic:
+          name: Base topic (MQTT)
+          description: The base topic as configured in Z2M
+          default: zigbee2mqtt
+        hold_delay:
+          name: Hold delay
+          description: If the button has been held more than the configured Hold delay, the corresponding held action is triggered.
+          default: 500
+          selector:
+            number:
+              min: 100.0
+              max: 1000.0
+              unit_of_measurement: milliseconds
+              mode: box
+              step: 10.0
+    ptm215z_ze_actions:
+      name: PTM215Z/ZE - Actions
+      icon: mdi:gesture-tap
+      collapsed: true
+      input:
+        button_1_pressed:
+          name: Button 1 Pressed
+          description: Action to run, when button 1 is pressed.
+          default: []
+          selector:
+            action: {}
+        button_1_held:
+          name: Button 1 Held
+          description: Action to run, when the button 1 is held.
+          default: []
+          selector:
+            action: {}
+        button_1_released:
+          name: Button 1 Released
+          description: Action to run, when the button 1 is released after long press.
+          default: []
+          selector:
+            action: {}
+        button_2_pressed:
+          name: Button 2 Pressed
+          description: Action to run, when the button 2 pressed.
+          default: []
+          selector:
+            action: {}
+        button_2_held:
+          name: Button 2 Held
+          description: Action to run, when the button 2 is held.
+          default: []
+          selector:
+            action: {}
+        button_2_released:
+          name: Button 2 Released
+          description: Action to run, when the button 2 is released after long press.
+          default: []
+          selector:
+            action: {}
+        button_3_pressed:
+          name: Button 3 Pressed
+          description: Action to run, when the button 3 is pressed.
+          default: []
+          selector:
+            action: {}
+        button_3_held:
+          name: Button 3 Held
+          description: Action to run, when the button 3 is held.
+          default: []
+          selector:
+            action: {}
+        button_3_released:
+          name: Button 3 Released
+          description: Action to run, when the button 3 is released after long press.
+          default: []
+          selector:
+            action: {}
+        button_4_pressed:
+          name: Button 4 Pressed
+          description: Action to run, when the button 4 is pressed.
+          default: []
+          selector:
+            action: {}
+        button_4_held:
+          name: Button 4 Held
+          description: Action to run, when the button 4 is held.
+          default: []
+          selector:
+            action: {}
+        button_4_released:
+          name: Button 4 Released
+          description: Action to run, when the button 4 is released after long press.
+          default: []
+          selector:
+            action: {}
+        button_1_and_3_pressed:
+          name: Buttons 1 and 3 Pressed
+          description: Action to run, when buttons 1 and 3 are pressed.
+          default: []
+          selector:
+            action: {}
+        button_1_and_3_held:
+          name: Buttons 1 and 3 Held
+          description: Action to run, when buttons 1 and 3 are held.
+          default: []
+          selector:
+            action: {}
+        button_1_and_3_released:
+          name: Buttons 1 and 3 Released
+          description: Action to run, when buttons 1 and 3 are released after long press.
+          default: []
+          selector:
+            action: {}
+        button_2_and_4_pressed:
+          name: Buttons 2 and 4 Pressed
+          description: Action to run, when buttons 2 and 4 are pressed.
+          default: []
+          selector:
+            action: {}
+        button_2_and_4_held:
+          name: Buttons 2 and 4 Held
+          description: Action to run, when buttons 2 and 4 are held.
+          default: []
+          selector:
+            action: {}
+        button_2_and_4_released:
+          name: Buttons 2 and 4 Released
+          description: Action to run, when buttons 2 and 4 are released after long press.
+          default: []
+          selector:
+            action: {}
+    ptm215ze_actions:
+      name: PTM215ZE - Specific actions
+      icon: mdi:gesture-two-tap
+      collapsed: true
+      input:
+        button_1_and_4_pressed:
+          name: Buttons 1 and 4 Pressed
+          description: Action to run, when buttons 1 and 4 are pressed.
+          default: []
+          selector:
+            action: {}
+        button_1_and_4_held:
+          name: Buttons 1 and 4 Held
+          description: Action to run, when buttons 1 and 4 are held.
+          default: []
+          selector:
+            action: {}
+        button_1_and_4_released:
+          name: Button 1 and 4 Released
+          description: Action to run, when buttons 1 and 4 are released after long press.
+          default: []
+          selector:
+            action: {}
+        button_2_and_3_pressed:
+          name: Buttons 2 and 3 Pressed
+          description: Action to run, when buttons 2 and 3 are pressed.
+          default: []
+          selector:
+            action: {}
+        button_2_and_3_held:
+          name: Buttons 2 and 3 Held
+          description: Action to run, when buttons 2 and 3 are held.
+          default: []
+          selector:
+            action: {}
+        button_2_and_3_released:
+          name: Buttons 2 and 3 Released
+          description: Action to run, when buttons 2 and 3 are released after long press.
+          default: []
+          selector:
+            action: {}
+#  source_url: https://github.com/chris-1243/HA---Blueprint/blob/main/PTM_215Z_ZE_v2.yaml
+mode: restart
+max_exceeded: silent
+trigger_variables:
+  base_topic: !input base_topic
+  controller: !input controller
+triggers:
+  - trigger: mqtt
+    topic: '{{ base_topic ~ "/+" }}'
+conditions: 
+  and:
+    - '{{ trigger.payload_json.action is defined }}'
+    - '{{ trigger.topic.split("/")[1] in controller }}'
+    - '{{ trigger.payload_json.action.split("_", 1)[0] in ("press", "release") }}'
+actions:
+  - variables:
+      command: '{{ trigger.payload_json.action }}'
+      hold_delay: !input hold_delay
+  - choose:
+      - conditions: '{{ "press" in command }}'
+        sequence:
+          - delay:
+              milliseconds: '{{ hold_delay }}'
+          - choose:
+              - conditions: '{{ command == "press_1" }}'
+                sequence: !input button_1_held
+              - conditions: '{{ command == "press_2" }}'
+                sequence: !input button_2_held
+              - conditions: '{{ command == "press_3" }}'
+                sequence: !input button_3_held
+              - conditions: '{{ command == "press_4" }}'
+                sequence: !input button_4_held
+              - conditions: '{{ command == "press_1_and_3" }}'
+                sequence: !input button_1_and_3_held
+              - conditions: '{{ command == "press_2_and_4" }}'
+                sequence: !input button_2_and_4_held
+              - conditions: '{{ command == "press_1_and_4" }}'
+                sequence: !input button_1_and_4_held
+              - conditions: '{{ command == "press_2_and_3" }}'
+                sequence: !input button_2_and_3_held
+      - conditions: '{{ "release" in command }}'
+        sequence:
+          - if: '{{ trigger.payload_json.elapsed | int > hold_delay }}'
+            then:
+              - choose:
+                  - conditions: '{{ command == "release_1" }}'
+                    sequence: !input button_1_released
+                  - conditions: '{{ command == "release_2" }}'
+                    sequence: !input button_2_released
+                  - conditions: '{{ command == "release_3" }}'
+                    sequence: !input button_3_released
+                  - conditions: '{{ command == "release_4" }}'
+                    sequence: !input button_4_released
+                  - conditions: '{{ command == "release_1_and_3" }}'
+                    sequence: !input button_1_and_3_released
+                  - conditions: '{{ command == "release_2_and_4" }}'
+                    sequence: !input button_2_and_4_released
+                  - conditions: '{{ command == "release_1_and_4" }}'
+                    sequence: !input button_1_and_4_released
+                  - conditions: '{{ command == "release_2_and_3" }}'
+                    sequence: !input button_2_and_3_released
+            else:
+              - choose:
+                  - conditions: '{{ command == "release_1" }}'
+                    sequence: !input button_1_pressed
+                  - conditions: '{{ command == "release_2" }}'
+                    sequence: !input button_2_pressed
+                  - conditions: '{{ command == "release_3" }}'
+                    sequence: !input button_3_pressed
+                  - conditions: '{{ command == "release_4" }}'
+                    sequence: !input button_4_pressed
+                  - conditions: '{{ command == "release_1_and_3" }}'
+                    sequence: !input button_1_and_3_pressed
+                  - conditions: '{{ command == "release_2_and_4" }}'
+                    sequence: !input button_2_and_4_pressed
+                  - conditions: '{{ command == "release_1_and_4" }}'
+                    sequence: !input button_1_and_4_pressed
+                  - conditions: '{{ command == "release_2_and_3" }}'
+                    sequence: !input button_2_and_3_pressed
