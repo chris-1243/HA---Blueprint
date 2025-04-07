@@ -12,6 +12,4 @@ There are some sporadic updates for the new `event` action even if this feature 
 
 For any questions or improvement, feel free to open an issue or to post in the Home Assistant forum directly via the links provided below.
 
-  - [PTM215Z/ZE](https://community.home-assistant.io/t/zigbee2mqtt-ptm215z-ze/827944)
-
-  - [PTM216Z](https://community.home-assistant.io/t/zigbee2mqtt-ptm216z/732003)
+  - [PTM21xZ/ZE](https://community.home-assistant.io/t/zigbee2mqtt-ptm215z-ze-and-ptm216z/873595)
