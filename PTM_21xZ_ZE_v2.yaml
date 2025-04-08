@@ -14,7 +14,7 @@ blueprint:
       - **Hold delay**
       - **PTM216Z - Specific settings**
 
-    ℹ️ Version 2025.04.04
+    ℹ️ Version 2025.04.09
   domain: automation
   input:
     controller:
@@ -234,97 +234,55 @@ actions:
       helper_last_controller_event: !input helper_last_controller_event
       hold_delay: !input hold_delay
       ptm216z: !input ptm216z_selector
+      prev_command: '{% if ptm216z %} {{ states(helper_last_controller_event) }}
+        {% else %} none {% endif %}'
   - sequence:
       - if: '{{ ptm216z }}'
         then:
-          - variables:
-              prev_command: '{{ states(helper_last_controller_event) }}'
           - action: input_text.set_value
             data:
               entity_id: '{{ helper_last_controller_event }}'
               value: '{{ command }}'
-          - choose:
-              - conditions: '{{ "release" in command }}'
-                sequence:
-                  - if: '{{ trigger.payload_json.elapsed | int > hold_delay }}'
-                    then:
-                      - choose:
-                          - conditions: '{{ prev_command == "press_1" }}'
-                            sequence: !input button_1_released
-                          - conditions: '{{ prev_command == "press_2" }}'
-                            sequence: !input button_2_released
-                          - conditions: '{{ prev_command == "press_3" }}'
-                            sequence: !input button_3_released
-                          - conditions: '{{ prev_command == "press_4" }}'
-                            sequence: !input button_4_released
-                          - conditions: '{{ prev_command == "press_1_and_3" }}'
-                            sequence: !input button_1_and_3_released
-                          - conditions: '{{ prev_command == "press_2_and_4" }}'
-                            sequence: !input button_2_and_4_released
-                          - conditions: '{{ prev_command == "press_1_and_4" }}'
-                            sequence: !input button_1_and_4_released
-                          - conditions: '{{ prev_command == "press_2_and_3" }}'
-                            sequence: !input button_2_and_3_released
-                    else:
-                      - choose:
-                          - conditions: '{{ prev_command == "press_1" }}'
-                            sequence: !input button_1_pressed
-                          - conditions: '{{ prev_command == "press_2" }}'
-                            sequence: !input button_2_pressed
-                          - conditions: '{{ prev_command == "press_3" }}'
-                            sequence: !input button_3_pressed
-                          - conditions: '{{ prev_command == "press_4" }}'
-                            sequence: !input button_4_pressed
-                          - conditions: '{{ prev_command == "press_1_and_3" }}'
-                            sequence: !input button_1_and_3_pressed
-                          - conditions: '{{ prev_command == "press_2_and_4" }}'
-                            sequence: !input button_2_and_4_pressed
-                          - conditions: '{{ prev_command == "press_1_and_4" }}'
-                            sequence: !input button_1_and_4_pressed
-                          - conditions: '{{ prev_command == "press_2_and_3" }}'
-                            sequence: !input button_2_and_3_pressed
-        else:
-          - choose:
-              - conditions: '{{ "release" in command }}'
-                sequence:
-                  - if: '{{ trigger.payload_json.elapsed | int > hold_delay }}'
-                    then:
-                      - choose:
-                          - conditions: '{{ command == "release_1" }}'
-                            sequence: !input button_1_released
-                          - conditions: '{{ command == "release_2" }}'
-                            sequence: !input button_2_released
-                          - conditions: '{{ command == "release_3" }}'
-                            sequence: !input button_3_released
-                          - conditions: '{{ command == "release_4" }}'
-                            sequence: !input button_4_released
-                          - conditions: '{{ command == "release_1_and_3" }}'
-                            sequence: !input button_1_and_3_released
-                          - conditions: '{{ command == "release_2_and_4" }}'
-                            sequence: !input button_2_and_4_released
-                          - conditions: '{{ command == "release_1_and_4" }}'
-                            sequence: !input button_1_and_4_released
-                          - conditions: '{{ command == "release_2_and_3" }}'
-                            sequence: !input button_2_and_3_released
-                    else:
-                      - choose:
-                          - conditions: '{{ command == "release_1" }}'
-                            sequence: !input button_1_pressed
-                          - conditions: '{{ command == "release_2" }}'
-                            sequence: !input button_2_pressed
-                          - conditions: '{{ command == "release_3" }}'
-                            sequence: !input button_3_pressed
-                          - conditions: '{{ command == "release_4" }}'
-                            sequence: !input button_4_pressed
-                          - conditions: '{{ command == "release_1_and_3" }}'
-                            sequence: !input button_1_and_3_pressed
-                          - conditions: '{{ command == "release_2_and_4" }}'
-                            sequence: !input button_2_and_4_pressed
-                          - conditions: '{{ command == "release_1_and_4" }}'
-                            sequence: !input button_1_and_4_pressed
-                          - conditions: '{{ command == "release_2_and_3" }}'
-                            sequence: !input button_2_and_3_pressed
       - choose:
+          - conditions: '{{ "release" in command }}'
+            sequence:
+              - if: '{{ trigger.payload_json.elapsed | int > hold_delay }}'
+                then:
+                  - choose:
+                      - conditions: '{{ command == "release_1" or prev_command == "press_1" }}'
+                        sequence: !input button_1_released
+                      - conditions: '{{ command == "release_2" or prev_command == "press_2" }}'
+                        sequence: !input button_2_released
+                      - conditions: '{{ command == "release_3" or prev_command == "press_3" }}'
+                        sequence: !input button_3_released
+                      - conditions: '{{ command == "release_4" or prev_command == "press_4" }}'
+                        sequence: !input button_4_released
+                      - conditions: '{{ command == "release_1_and_3" or prev_command == "press_1_and_3" }}'
+                        sequence: !input button_1_and_3_released
+                      - conditions: '{{ command == "release_2_and_4" or prev_command == "press_2_and_4" }}'
+                        sequence: !input button_2_and_4_released
+                      - conditions: '{{ command == "release_1_and_4" or prev_command == "press_1_and_4" }}'
+                        sequence: !input button_1_and_4_released
+                      - conditions: '{{ command == "release_2_and_3" or prev_command == "press_2_and_3" }}'
+                        sequence: !input button_2_and_3_released
+                else:
+                  - choose:
+                      - conditions: '{{ command == "release_1" or prev_command == "press_1" }}'
+                        sequence: !input button_1_pressed
+                      - conditions: '{{ command == "release_2" or prev_command == "press_2" }}'
+                        sequence: !input button_2_pressed
+                      - conditions: '{{ command == "release_3" or prev_command == "press_3" }}'
+                        sequence: !input button_3_pressed
+                      - conditions: '{{ command == "release_4" or prev_command == "press_4" }}'
+                        sequence: !input button_4_pressed
+                      - conditions: '{{ command == "release_1_and_3" or prev_command == "press_1_and_3" }}'
+                        sequence: !input button_1_and_3_pressed
+                      - conditions: '{{ command == "release_2_and_4" or prev_command == "press_2_and_4" }}'
+                        sequence: !input button_2_and_4_pressed
+                      - conditions: '{{ command == "release_1_and_4" or prev_command == "press_1_and_4" }}'
+                        sequence: !input button_1_and_4_pressed
+                      - conditions: '{{ command == "release_2_and_3" or prev_command == "press_2_and_3" }}'
+                        sequence: !input button_2_and_3_pressed
           - conditions: '{{ "press" in command }}'
             sequence:
               - delay:
