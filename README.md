@@ -1,10 +1,6 @@
 Small collection of Home Assistant blueprints for the PTM215Z/ZE and PTM216Z. Those blueprints shall be used with Zigbee2MQTT.
 
-In the **deprecated** folder, you will find blueprints based on the deprecated `sensor.action` and they shall not be used with Zigbee2MQTT v2.x.x or later (unless the option below is set to true). This folder will not receive any update.
-```shell
-homeassistant:
-  legacy_action_sensor: true
-``` 
+In the **deprecated** folder, you will find older blueprints based on the device model.
 
 There are some sporadic updates for the new `event` action even if this feature is still in experimental mode. A **test** folder is now available to test first iterations based on the new `event trigger`.
 
