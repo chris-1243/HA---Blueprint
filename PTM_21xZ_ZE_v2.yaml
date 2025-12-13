@@ -14,7 +14,7 @@ blueprint:
       - **Hold delay**
       - **PTM216Z - Specific settings**
 
-    ℹ️ Version 2025.04.09
+    ℹ️ Version 2025.12.13
   domain: automation
   input:
     controller:
@@ -67,109 +67,109 @@ blueprint:
       input:
         button_1_pressed:
           name: Button 1 Pressed
-          description: Action to run, when button 1 is pressed.
+          description: Action to run when button 1 is pressed.
           default: []
           selector:
             action: {}
         button_1_held:
           name: Button 1 Held
-          description: Action to run, when the button 1 is held.
+          description: Action to run when the button 1 is held.
           default: []
           selector:
             action: {}
         button_1_released:
           name: Button 1 Released
-          description: Action to run, when the button 1 is released after long press.
+          description: Action to run when the button 1 is released after long press.
           default: []
           selector:
             action: {}
         button_2_pressed:
           name: Button 2 Pressed
-          description: Action to run, when the button 2 pressed.
+          description: Action to run when the button 2 pressed.
           default: []
           selector:
             action: {}
         button_2_held:
           name: Button 2 Held
-          description: Action to run, when the button 2 is held.
+          description: Action to run when the button 2 is held.
           default: []
           selector:
             action: {}
         button_2_released:
           name: Button 2 Released
-          description: Action to run, when the button 2 is released after long press.
+          description: Action to run when the button 2 is released after long press.
           default: []
           selector:
             action: {}
         button_3_pressed:
           name: Button 3 Pressed
-          description: Action to run, when the button 3 is pressed.
+          description: Action to run when the button 3 is pressed.
           default: []
           selector:
             action: {}
         button_3_held:
           name: Button 3 Held
-          description: Action to run, when the button 3 is held.
+          description: Action to run when the button 3 is held.
           default: []
           selector:
             action: {}
         button_3_released:
           name: Button 3 Released
-          description: Action to run, when the button 3 is released after long press.
+          description: Action to run when the button 3 is released after long press.
           default: []
           selector:
             action: {}
         button_4_pressed:
           name: Button 4 Pressed
-          description: Action to run, when the button 4 is pressed.
+          description: Action to run when the button 4 is pressed.
           default: []
           selector:
             action: {}
         button_4_held:
           name: Button 4 Held
-          description: Action to run, when the button 4 is held.
+          description: Action to run when the button 4 is held.
           default: []
           selector:
             action: {}
         button_4_released:
           name: Button 4 Released
-          description: Action to run, when the button 4 is released after long press.
+          description: Action to run when the button 4 is released after long press.
           default: []
           selector:
             action: {}
         button_1_and_3_pressed:
           name: Buttons 1 and 3 Pressed
-          description: Action to run, when buttons 1 and 3 are pressed.
+          description: Action to run when buttons 1 and 3 are pressed.
           default: []
           selector:
             action: {}
         button_1_and_3_held:
           name: Buttons 1 and 3 Held
-          description: Action to run, when buttons 1 and 3 are held.
+          description: Action to run when buttons 1 and 3 are held.
           default: []
           selector:
             action: {}
         button_1_and_3_released:
           name: Buttons 1 and 3 Released
-          description: Action to run, when buttons 1 and 3 are released after long press.
+          description: Action to run when buttons 1 and 3 are released after long press.
           default: []
           selector:
             action: {}
         button_2_and_4_pressed:
           name: Buttons 2 and 4 Pressed
-          description: Action to run, when buttons 2 and 4 are pressed.
+          description: Action to run when buttons 2 and 4 are pressed.
           default: []
           selector:
             action: {}
         button_2_and_4_held:
           name: Buttons 2 and 4 Held
-          description: Action to run, when buttons 2 and 4 are held.
+          description: Action to run when buttons 2 and 4 are held.
           default: []
           selector:
             action: {}
         button_2_and_4_released:
           name: Buttons 2 and 4 Released
-          description: Action to run, when buttons 2 and 4 are released after long press.
+          description: Action to run when buttons 2 and 4 are released after long press.
           default: []
           selector:
             action: {}
@@ -180,37 +180,37 @@ blueprint:
       input:
         button_1_and_4_pressed:
           name: Buttons 1 and 4 Pressed
-          description: Action to run, when buttons 1 and 4 are pressed.
+          description: Action to run when buttons 1 and 4 are pressed.
           default: []
           selector:
             action: {}
         button_1_and_4_held:
           name: Buttons 1 and 4 Held
-          description: Action to run, when buttons 1 and 4 are held.
+          description: Action to run when buttons 1 and 4 are held.
           default: []
           selector:
             action: {}
         button_1_and_4_released:
           name: Button 1 and 4 Released
-          description: Action to run, when buttons 1 and 4 are released after long press.
+          description: Action to run when buttons 1 and 4 are released after long press.
           default: []
           selector:
             action: {}
         button_2_and_3_pressed:
           name: Buttons 2 and 3 Pressed
-          description: Action to run, when buttons 2 and 3 are pressed.
+          description: Action to run when buttons 2 and 3 are pressed.
           default: []
           selector:
             action: {}
         button_2_and_3_held:
           name: Buttons 2 and 3 Held
-          description: Action to run, when buttons 2 and 3 are held.
+          description: Action to run when buttons 2 and 3 are held.
           default: []
           selector:
             action: {}
         button_2_and_3_released:
           name: Buttons 2 and 3 Released
-          description: Action to run, when buttons 2 and 3 are released after long press.
+          description: Action to run when buttons 2 and 3 are released after long press.
           default: []
           selector:
             action: {}
