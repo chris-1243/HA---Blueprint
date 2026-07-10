@@ -14,12 +14,12 @@ blueprint:
       - **Hold delay**
       - **PTM216Z - Specific settings**
 
-    ℹ️ Version 2025.12.13
+    ℹ️ Version 2026.07.10
   domain: automation
   input:
     controller:
       name: Controller Name
-      description: The name of the controller as defined in Z2M (e.g. Livingroom_Switch)
+      description: The name of the controller as defined in Z2M (e.g. Livingroom_Switch).
       default: []
       selector:
         text:
@@ -32,7 +32,7 @@ blueprint:
       input:
         base_topic:
           name: Base topic (MQTT)
-          description: The base topic as configured in z2m
+          description: The base topic as configured in Z2M.
           default: zigbee2mqtt
         hold_delay:
           name: Hold delay
@@ -47,7 +47,7 @@ blueprint:
               step: 10.0
         ptm216z_selector:
           name: PTM216Z
-          description: Turn **On** only if using a PTM216Z
+          description: Turn **On** only if using a PTM216Z.
           default: false
           selector:
             boolean: {}
