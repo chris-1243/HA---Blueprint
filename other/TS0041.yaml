@@ -60,10 +60,10 @@ trigger_variables:
 triggers:
   - trigger: mqtt
     topic: '{{ base_topic ~ "/" ~ controller ~ "/action" }}'
+variables:
+  command: '{{ trigger.payload }}'
 conditions: '{{ command is defined }}'
 actions:
-  - variables:
-      command: '{{ trigger.payload }}'
   - choose:
       - conditions: '{{ command == "single" }}'
         sequence: !input single_press
