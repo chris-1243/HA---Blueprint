@@ -1,0 +1,73 @@
+blueprint:
+  homeassistant:
+    min_version: 2026.8.0
+  name: Tuya - TS0041 (MQTT trigger)
+  description: |
+    Controller automation for executing **single/double/hold** actions triggered by Tuya TS0041 switch.
+
+    **SETTINGS**
+    In this tab, there is the possibility to change different parameters.
+      - **Base topic**
+
+    ℹ️ Version 2026.10.09
+  domain: automation
+  input:
+    controller:
+      name: Controller Name
+      description: The name of the controller as defined in Z2M (e.g. Livingroom_Switch).
+      default: []
+      selector:
+        text:
+          type: text
+    settings_section:
+      name: Settings
+      icon: mdi:cog-outline
+      collapsed: true
+      input:
+        base_topic:
+          name: Base topic (MQTT)
+          description: The base topic as configured in Z2M.
+          default: zigbee2mqtt
+    ts0041_actions:
+      name: TS0041 - Actions
+      icon: mdi:gesture-tap
+      collapsed: true
+      input:
+        single_press:
+          name: Single press
+          description: Action to run when button is shortly pressed.
+          default: []
+          selector:
+            action: {}
+        double_press:
+          name: Double press
+          description: Action to run when the button is pressed twice.
+          default: []
+          selector:
+            action: {}
+        hold_press:
+          name: Long press
+          description: Action to run when the button is held.
+          default: []
+          selector:
+            action: {}
+#  source_url:
+mode: single
+max_exceeded: silent
+trigger_variables:
+  base_topic: !input base_topic
+  controller: !input controller
+triggers:
+  - trigger: mqtt
+    topic: '{{ base_topic ~ "/" ~ controller ~ "/action" }}'
+conditions: '{{ command is defined }}'
+actions:
+  - variables:
+      command: '{{ trigger.payload }}'
+  - choose:
+      - conditions: '{{ command == "single" }}'
+        sequence: !input single_press
+      - conditions: '{{ command == "double" }}'
+        sequence: !input double_press
+      - conditions: '{{ command == "hold" }}'
+        sequence: !input hold_press
