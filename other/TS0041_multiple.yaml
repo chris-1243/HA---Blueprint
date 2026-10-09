@@ -69,8 +69,6 @@ conditions:
     - '{{ mqtt_topic.split("/")[1] in controller }}'
     - '{{ command is defined }}'
 actions:
-  - variables:
-      command: '{{ trigger.payload }}'
   - choose:
       - conditions: '{{ command == "single" }}'
         sequence: !input single_press
