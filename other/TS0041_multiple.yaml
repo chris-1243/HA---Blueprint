@@ -52,7 +52,8 @@ blueprint:
           default: []
           selector:
             action: {}
-#  source_url: https://github.com/chris-1243/HA---Blueprint/blob/main/other/TS0041_multiple.yamlmode: single
+#  source_url: https://github.com/chris-1243/HA---Blueprint/blob/main/other/TS0041_multiple.yaml
+mode: single
 max_exceeded: silent
 trigger_variables:
   base_topic: !input base_topic
