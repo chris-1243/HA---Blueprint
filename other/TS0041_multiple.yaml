@@ -9,7 +9,7 @@ blueprint:
     In this tab, there is the possibility to change different parameters.
       - **Base topic**
 
-    ℹ️ Version 2026.10.09
+    ℹ️ Version 2026.11.14
   domain: automation
   input:
     controller:
@@ -59,15 +59,14 @@ trigger_variables:
   base_topic: !input base_topic
 triggers:
   - trigger: mqtt
-    topic: '{{ base_topic ~ "/+" ~ "/action" }}'
+    topic: '{{ base_topic }}/+/action'
 variables:
   command: '{{ trigger.payload }}'
   controller: !input controller
   mqtt_topic: '{{ trigger.topic }}'
 conditions:
-  and:
-    - '{{ mqtt_topic.split("/")[1] in controller }}'
-    - '{{ command is defined }}'
+  - '{{ command is defined }}'
+  - '{{ mqtt_topic.split("/")[1] in controller }}'
 actions:
   - choose:
       - conditions: '{{ command == "single" }}'
