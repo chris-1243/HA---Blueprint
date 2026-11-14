@@ -52,8 +52,7 @@ blueprint:
           default: []
           selector:
             action: {}
-#  source_url: https://github.com/chris-1243/HA---Blueprint/blob/main/other/TS0041_multiple.yaml
-mode: single
+#  source_url: https://github.com/chris-1243/HA---Blueprint/blob/main/other/TS0041_multiple.yamlmode: single
 max_exceeded: silent
 trigger_variables:
   base_topic: !input base_topic
@@ -61,13 +60,16 @@ triggers:
   - trigger: mqtt
     topic: '{{ base_topic }}/+/action'
 variables:
-  command: '{{ trigger.payload }}'
+  command: '{{ trigger.payload | default("") }}'
   controller: !input controller
   mqtt_topic: '{{ trigger.topic }}'
 conditions:
-  - '{{ command is defined }}'
+  - '{{ command != "" }}'
   - '{{ mqtt_topic.split("/")[1] in controller }}'
+  - '{{ command.split("_", 1)[0] in ("press", "release") }}'
 actions:
+  - variables:
+      command: '{{ trigger.payload }}'
   - choose:
       - conditions: '{{ command == "single" }}'
         sequence: !input single_press
