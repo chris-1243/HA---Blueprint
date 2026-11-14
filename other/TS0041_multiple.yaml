@@ -63,10 +63,9 @@ triggers:
 variables:
   command: '{{ trigger.payload | default("") }}'
   controller: !input controller
-  mqtt_topic: '{{ trigger.topic }}'
 conditions:
   - '{{ command != "" }}'
-  - '{{ mqtt_topic.split("/")[1] in controller }}'
+  - '{{ trigger.topic.split("/")[1] in controller }}'
   - '{{ command.split("_", 1)[0] in ("press", "release") }}'
 actions:
   - choose:
