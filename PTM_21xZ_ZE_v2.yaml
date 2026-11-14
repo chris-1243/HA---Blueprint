@@ -223,13 +223,14 @@ trigger_variables:
 triggers:
   - trigger: mqtt
     topic: '{{ base_topic }}/+'
-conditions: 
-  - '{{ trigger.payload_json.action is defined }}'
+variables:
+  command: '{{ trigger.payload_json.action | default("") }}'
+conditions:
+  - '{{ command != "" }}'
   - '{{ trigger.topic.split("/")[1] in controller }}'
-  - '{{ trigger.payload_json.action.split("_", 1)[0] in ("press", "release") }}'
+  - '{{ command.split("_", 1)[0] in ("press", "release") }}'
 actions:
   - variables:
-      command: '{{ trigger.payload_json.action }}'
       helper_last_controller_event: !input helper_last_controller_event
       hold_delay: !input hold_delay
       ptm216z: !input ptm216z_selector
